@@ -1,0 +1,37 @@
+{
+  "name": "roots-cms",
+  "version": "0.0.1",
+  "homepage": "https://github.com/carrot/roots-cms/",
+  "description": "A content management tool for managing roots dynamic content.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/joshrowley/roots-cms.git"
+  },
+  "author": "Josh Rowley",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:carrot/roots-cms.git"
+  },
+  "bugs": {
+    "url": "https://github.com/carrot/roots-cms/issues"
+  },
+  "license": "MIT",
+  "preferGlobal": "true",
+  "bin": {
+    "roots-cms" : "bin/roots-cms"
+  },
+  "dependencies": {
+    "express": "3.4.x",
+    "jade": "0.35.x",
+    "stylus": "~0.41.x",
+    "coffee-script": "~1.6.x",
+    "axis-css": "0.1.x",
+    "autoprefixer-stylus": "0.0.x",
+    "readdirp": "0.3.x",
+    "when": "2.7.x",
+    "underscore": "1.5.x",
+    "open": "0.0.x",
+    "connect-coffee-script": "0.1.x"
+  }
+}

@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+public/*
+!public/js/
+public/js/*
+!public/js/vendor/
