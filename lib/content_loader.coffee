@@ -1,45 +1,22 @@
 fs = require('fs')
 readdirp = require('readdirp')
 W = require('when')
-_ = require('underscore')
-ContentCollection = require('./content_collection')
+Content = require('./content')
 
-class ContentLoader
-# Grab all dynamic content files from process' current working directory,
-# or you can pass in your own dir
+module.exports =
+  load: (file_paths) -> return (new Content(path) for path in file_paths)
 
-  constructor: (root_dir) ->
-    @root_dir = root_dir || process.cwd()
-    @content_files = []
+  detect: (dir, cb) ->
+    files = []
 
-# group all content files by directory and create a ContentCollection
-# for each
-
-  load_collections: ->
-    deferred = W.defer()
-
-    @parse_root_dir().then => 
-      cats = _.uniq(_.map(@content_files, (f) -> f.parentDir))
-      collections = []
-      _.each cats, (cat) =>
-        files = _.filter @content_files, (f) -> f.parentDir == cat
-        collections.push(new ContentCollection(files))
-      deferred.resolve(collections)
-
-    return deferred.promise
-
-  parse_root_dir: ->
-    deferred = W.defer()
-
-    readdirp(root: @root_dir)
-      .on('end', => deferred.resolve())
+    readdirp(root: dir)
+      .on 'end', =>
+        cb(null, files)
       .on 'data', (f) =>
-        @detect(f.fullPath)
-          .then((res) => if res then @content_files.push(f))
+        @_detect_file(f.fullPath)
+          .then((res) => if res then files.push(f.fullPath))
 
-    return deferred.promise
-
-  detect: (f) ->
+  _detect_file: (f) ->
     deferred = W.defer()
     res = false
 
@@ -50,5 +27,3 @@ class ContentLoader
         if data.split('\n')[0] == '---' then res = true
 
     return deferred.promise
-
-module.exports = ContentLoader
