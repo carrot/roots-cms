@@ -7,13 +7,17 @@ module.exports = class Content
     @matcher = /^---\s*\n([\s\S]*?)\n?---\s*\n?/
     @path = path
     @contents = fs.readFileSync(@path, 'utf8')
-    @_parse()
+    @parse()
 
   get: (str) -> @data[str]
 
   set: (attr, val) -> @data[attr] = val
 
-  _parse: ->
+  save: ->
+    @contents = @contents.replace(@matcher, "---\n#{js_yaml.safeDump(@data)}---\n")
+    fs.writeFileSync(@path, @contents)
+
+  parse: ->
     front_matter = @contents.match(@matcher)
     if not front_matter then return false
     @data = js_yaml.safeLoad(front_matter[1])

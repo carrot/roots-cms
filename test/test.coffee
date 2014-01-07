@@ -5,11 +5,10 @@ assert = require('assert')
 js_yaml = require('js-yaml')
 Content = require('../lib/content')
 
-root_dir = process.cwd()
-
 describe 'Content', ->
   before ->
-    @path = path.join(root_dir, 'test/fixtures/content/post_1.md')
+    @path = path.join(process.cwd(), 'test', 'fixtures', 'content', 'post_1.md')
+    @file = fs.readFileSync(@path, 'utf8')
     @content = new Content(@path)
 
   it 'should load its file from the path passed in', ->
@@ -25,17 +24,26 @@ describe 'Content', ->
       assert.equal(@content.get('title'), 'Post 1')
 
   describe '#set', ->
-    it 'should set the attibute into the data object', ->
+    it 'should set the attribute into the data object', ->
       @content.set('order', 2)
       assert.equal(@content.get('order'), 2)
 
   describe '#save', ->
-    it 'should save the data object back into the content file', ->
+    before ->
       @content.set('order', 3)
       @content.set('title', 'Rewrote the file')
+      @content.set('body', 'Some info')
       @content.save()
 
+    it 'should save the data object back into the content file', ->
       contents = fs.readFileSync(@path, 'utf8')
-      @content._parse()
+      @content.parse()
       assert.equal(@content.get('order'), 3)
       assert.equal(@content.get('title'), 'Rewrote the file')
+
+    it "shouldn't override any other content in the file", ->
+      contents = fs.readFileSync(@path, 'utf8')
+      assert.equal(true, (contents.indexOf('Some content underneath the front matter') != -1))
+
+    after ->
+      fs.writeFileSync(@path, @file)
