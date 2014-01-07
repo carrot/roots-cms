@@ -13,14 +13,15 @@ module.exports =
       .on 'end', =>
         cb(null, files)
       .on 'data', (f) =>
+        return false if f.parentDir == 'node_modules'
         @_detect_file(f.fullPath)
           .then((res) => if res then files.push(f.fullPath))
 
-  _detect_file: (f) ->
+  _detect_file: (path) ->
     deferred = W.defer()
     res = false
 
-    fs.createReadStream(f, {encoding: 'utf-8', start: 0, end: 3})
+    fs.createReadStream(path, {encoding: 'utf-8', start: 0, end: 3})
       .on('error', deferred.reject)
       .on('end', -> deferred.resolve(res))
       .on 'data', (data) ->

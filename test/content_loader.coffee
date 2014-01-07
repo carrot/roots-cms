@@ -21,6 +21,8 @@ describe 'ContentLoader', ->
     it 'detects nested dynamic content files', ->
       @file_paths.should.include(path.join(@base_dir, 'nested_content', 'post_4.md'))
 
+    it 'should not detect any files with yaml front matter that are in node module libraries', ->
+      @file_paths.should.not.include(path.join(@base_dir, 'node_modules', 'lib_content.md'))
 
   describe '.load', ->
     it 'should create Content objects for an array files', ->
