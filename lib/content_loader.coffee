@@ -13,7 +13,7 @@ module.exports =
       .on 'end', =>
         cb(null, files)
       .on 'data', (f) =>
-        return false if f.parentDir == 'node_modules'
+        return false if f.parentDir.indexOf('node_modules') != -1
         @_detect_file(f.fullPath)
           .then((res) => if res then files.push(f.fullPath))
 
