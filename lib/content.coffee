@@ -1,6 +1,5 @@
 fs = require('fs')
 js_yaml = require('js-yaml')
-regex = require('../lib/regex')
 
 module.exports = class Content
   constructor: (path) ->
