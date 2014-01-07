@@ -1,14 +1,19 @@
 fs = require('fs')
+js_yaml = require('js-yaml')
 regex = require('../lib/regex')
 
 module.exports = class Content
-  constructor: (opts) ->
-    @order = opts.order
-    @name = opts.name
-    @path = opts.path
-    @contents = opts.contents
+  constructor: (path) ->
+    @matcher = /^---\s*\n([\s\S]*?)\n?---\s*\n?/
+    @path = path
+    @contents = fs.readFileSync(@path, 'utf8')
+    @_parse()
 
-  save: ->
-    contents = fs.readFileSync(@path, 'utf8')
-    fs.open @path, 'w', (err, fd) =>
-      fs.write(fd, contents.replace(regex.order, "order: #{@order}"))
+  get: (str) -> @data[str]
+
+  set: (attr, val) -> @data[attr] = val
+
+  _parse: ->
+    front_matter = @contents.match(@matcher)
+    if not front_matter then return false
+    @data = js_yaml.safeLoad(front_matter[1])
