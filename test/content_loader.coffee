@@ -7,11 +7,13 @@ ContentLoader = require('../lib/content_loader')
 describe 'ContentLoader', ->
   before (done) ->
     @base_dir = path.join(process.cwd(), 'test', 'fixtures', 'content')
-    ContentLoader.detect @base_dir, (err, data) =>
-      @file_paths = data
+
+    ContentLoader.all(@base_dir).then (content) =>
+      @content = content
+      @file_paths = (c.roots_cms_meta.path for c in content)
       done()
 
-  describe '.detect', ->
+  describe '.all', ->
     it 'detects dynamic content files', ->
       @file_paths.should.include(path.join(@base_dir, 'post_1.md'))
 
@@ -23,10 +25,3 @@ describe 'ContentLoader', ->
 
     it 'should not detect any files with yaml front matter that are in node module libraries', ->
       @file_paths.should.not.include(path.join(@base_dir, 'node_modules', 'some_lib', 'lib_content.md'))
-
-  describe '.load', ->
-    it 'should create Content objects for an array files', ->
-      content = ContentLoader.load(@file_paths)
-      content.should.have.lengthOf(4)
-      for c in content
-        c.should.be.an.instanceOf(Content)

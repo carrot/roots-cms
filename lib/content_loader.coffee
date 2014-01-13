@@ -4,9 +4,20 @@ W = require('when')
 Content = require('./content')
 
 module.exports =
-  load: (file_paths) -> return (new Content(path) for path in file_paths)
+  all: (dir) ->
+    deferred = W.defer()
 
-  detect: (dir, cb) ->
+    @_detect_content_files dir, (err, files) =>
+      content = @_load_content_from_files(files)
+      content = (c.data for c in content)
+      deferred.resolve(content)
+
+    return deferred.promise
+
+  _load_content_from_files: (files) ->
+    return (new Content(f.fullPath, f.parentDir) for f in files)
+
+  _detect_content_files: (dir, cb) ->
     files = []
 
     readdirp(root: dir)
@@ -15,7 +26,7 @@ module.exports =
       .on 'data', (f) =>
         return false if f.parentDir.indexOf('node_modules') != -1
         @_detect_file(f.fullPath)
-          .then((res) => if res then files.push(f.fullPath))
+          .then((res) => if res then files.push(f))
 
   _detect_file: (path) ->
     deferred = W.defer()

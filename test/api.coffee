@@ -27,12 +27,12 @@ describe '/api', ->
 
   describe '/api/content', ->
     it 'should serve all the content', (done) ->
-      ContentLoader.detect process.cwd(), (err, files) ->
+      ContentLoader.all(process.cwd()).then (content) ->
         http.get headers('/api/content'), (res) ->
           res.statusCode.should.eql(200)
 
           body = ''
           res.on 'data', (chunk) -> body += chunk
           res.on 'end', ->
-            JSON.parse(body).length.should.eql(files.length)
+            JSON.parse(body).length.should.eql(content.length)
             done()
