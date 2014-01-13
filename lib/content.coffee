@@ -22,4 +22,5 @@ module.exports = class Content
     front_matter = @contents.match(@matcher)
     if not front_matter then return false
     @data = js_yaml.safeLoad(front_matter[1])
+    @set('content', @contents.replace(@matcher, ''))
     @set('roots_cms_meta', { @path, @parent_dir })

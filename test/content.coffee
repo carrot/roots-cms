@@ -18,6 +18,9 @@ describe 'Content', ->
     assert.equal(@content.get('order'), 1)
     assert.equal(@content.get('title'), 'Post 1')
 
+  it 'should parse the content outside of the front matter', ->
+    assert.equal(@content.get('content'), 'Some content underneath the front matter.\n')
+
   describe '#get', ->
     it 'should retrieve the attribute from the data object', ->
       assert.equal(@content.get('order'), 1)
