@@ -27,7 +27,6 @@
     "readdirp": "0.3.x",
     "when": "2.7.x",
     "underscore": "1.5.x",
-    "open": "0.0.x",
     "connect-coffee-script": "0.1.x",
     "js-yaml": "~3.0.1"
   },
