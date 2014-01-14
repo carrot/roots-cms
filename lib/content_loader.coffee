@@ -20,7 +20,7 @@ module.exports =
   _detect_content_files: (dir, cb) ->
     files = []
 
-    readdirp(root: dir)
+    readdirp(root: dir, directoryFilter: ['!.git', '!node_modules', '!public'])
       .on 'end', =>
         cb(null, files)
       .on 'data', (f) =>

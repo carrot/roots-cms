@@ -14,15 +14,14 @@ require.config
 require ['collections/content', 'views/content_collection'], (ContentCollection, ContentCollectionView) ->
   App = new Marionette.Application()
 
+  App.addRegions
+    content: '#content'
+
   App.on 'initialize:after', ->
-    $.ajax
-      url: '/api'
-      type: "GET"
-      success: (data) ->
-        data.forEach (c) ->
-          view = new ContentCollectionView
-            collection: new ContentCollection(c.collection, parent_dir: c.parent_dir)
-          $('#content').append(view.render().$el)
-      error: (data, message) -> console?.log? data, message
+    collection = new ContentCollection
+    collection.fetch
+      success: (collection, res, opts) ->
+        App.content.show(new ContentCollectionView(collection: collection))
+      fail: (collection, res, opts) -> console?.log?(collection, res, opts)
 
   App.start()

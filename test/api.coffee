@@ -25,7 +25,7 @@ describe '/api', ->
   after (done) ->
     @server.close -> done()
 
-  describe '/api/content', ->
+  describe 'GET /api/content', ->
     it 'should serve all the content', (done) ->
       ContentLoader.all(process.cwd()).then (content) ->
         http.get headers('/api/content'), (res) ->
