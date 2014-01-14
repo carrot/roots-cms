@@ -1,54 +1,41 @@
 fs = require('fs')
 readdirp = require('readdirp')
 W = require('when')
-_ = require('underscore')
-ContentCollection = require('./content_collection')
+Content = require('./content')
 
-class ContentLoader
-# Grab all dynamic content files from process' current working directory,
-# or you can pass in your own dir
-
-  constructor: (root_dir) ->
-    @root_dir = root_dir || process.cwd()
-    @content_files = []
-
-# group all content files by directory and create a ContentCollection
-# for each
-
-  load_collections: ->
+module.exports =
+  all: (dir) ->
     deferred = W.defer()
 
-    @parse_root_dir().then => 
-      cats = _.uniq(_.map(@content_files, (f) -> f.parentDir))
-      collections = []
-      _.each cats, (cat) =>
-        files = _.filter @content_files, (f) -> f.parentDir == cat
-        collections.push(new ContentCollection(files))
-      deferred.resolve(collections)
+    @_detect_content_files dir, (err, files) =>
+      content = @_load_content_from_files(files)
+      content = (c.data for c in content)
+      deferred.resolve(content)
 
     return deferred.promise
 
-  parse_root_dir: ->
-    deferred = W.defer()
+  _load_content_from_files: (files) ->
+    return (new Content(f.fullPath, f.parentDir) for f in files)
 
-    readdirp(root: @root_dir)
-      .on('end', => deferred.resolve())
+  _detect_content_files: (dir, cb) ->
+    files = []
+
+    readdirp(root: dir)
+      .on 'end', =>
+        cb(null, files)
       .on 'data', (f) =>
-        @detect(f.fullPath)
-          .then((res) => if res then @content_files.push(f))
+        return false if f.parentDir.indexOf('node_modules') != -1
+        @_detect_file(f.fullPath)
+          .then((res) => if res then files.push(f))
 
-    return deferred.promise
-
-  detect: (f) ->
+  _detect_file: (path) ->
     deferred = W.defer()
     res = false
 
-    fs.createReadStream(f, {encoding: 'utf-8', start: 0, end: 3})
+    fs.createReadStream(path, {encoding: 'utf-8', start: 0, end: 3})
       .on('error', deferred.reject)
       .on('end', -> deferred.resolve(res))
       .on 'data', (data) ->
         if data.split('\n')[0] == '---' then res = true
 
     return deferred.promise
-
-module.exports = ContentLoader

@@ -1,14 +1,26 @@
 fs = require('fs')
-regex = require('../lib/regex')
+js_yaml = require('js-yaml')
 
 module.exports = class Content
-  constructor: (opts) ->
-    @order = opts.order
-    @name = opts.name
-    @path = opts.path
-    @contents = opts.contents
+  constructor: (path, parent_dir) ->
+    @matcher = /^---\s*\n([\s\S]*?)\n?---\s*\n?/
+    @path = path
+    @parent_dir = parent_dir
+    @contents = fs.readFileSync(@path, 'utf8')
+    @parse()
+
+  get: (str) -> @data[str]
+
+  set: (attr, val) -> @data[attr] = val
 
   save: ->
-    contents = fs.readFileSync(@path, 'utf8')
-    fs.open @path, 'w', (err, fd) =>
-      fs.write(fd, contents.replace(regex.order, "order: #{@order}"))
+    delete @data.roots_cms_meta
+    @contents = @contents.replace(@matcher, "---\n#{js_yaml.safeDump(@data)}---\n")
+    fs.writeFileSync(@path, @contents)
+
+  parse: ->
+    front_matter = @contents.match(@matcher)
+    if not front_matter then return false
+    @data = js_yaml.safeLoad(front_matter[1])
+    @set('content', @contents.replace(@matcher, ''))
+    @set('roots_cms_meta', { @path, @parent_dir })

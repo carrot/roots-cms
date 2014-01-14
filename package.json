@@ -6,20 +6,16 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/joshrowley/roots-cms.git"
-  },
-  "author": "Josh Rowley",
-  "repository": {
-    "type": "git",
     "url": "git@github.com:carrot/roots-cms.git"
   },
+  "author": "Josh Rowley",
   "bugs": {
     "url": "https://github.com/carrot/roots-cms/issues"
   },
   "license": "MIT",
   "preferGlobal": "true",
   "bin": {
-    "roots-cms" : "bin/roots-cms"
+    "roots-cms": "bin/roots-cms"
   },
   "dependencies": {
     "express": "3.4.x",
@@ -32,6 +28,14 @@
     "when": "2.7.x",
     "underscore": "1.5.x",
     "open": "0.0.x",
-    "connect-coffee-script": "0.1.x"
+    "connect-coffee-script": "0.1.x",
+    "js-yaml": "~3.0.1"
+  },
+  "devDependencies": {
+    "mocha": "~1.16.2",
+    "should": "~2.1.1"
+  },
+  "scripts": {
+    "test": "mocha"
   }
 }
