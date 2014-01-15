@@ -4,7 +4,7 @@ require.config
     backbone: { deps: ['jquery', 'underscore'], exports: 'Backbone' }
     backbone_relational: { deps: ['backbone'] }
     pen: { deps: ['jquery'], exports: 'Pen' }
-    markdown: { deps: ['pen'] }
+    pen_markdown: { deps: ['pen'] }
     marionette: { deps: ['backbone'], exports: 'Marionette' }
 
   paths:
@@ -13,9 +13,10 @@ require.config
     backbone_relational: 'vendor/backbone-relational'
     jquery: 'vendor/jquery'
     jqueryui: 'vendor/jqueryui'
+    marked: 'vendor/marked'
     marionette: 'vendor/backbone.marionette'
-    markdown: ['vendor/pen/src/markdown']
     pen: ['vendor/pen/src/pen']
+    pen_markdown: ['vendor/pen/src/markdown']
     underscore: 'vendor/underscore'
 
 require ['app', 'marionette', 'router', 'controller'], (App, Marionette, Router, Controller) ->
