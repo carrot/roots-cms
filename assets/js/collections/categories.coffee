@@ -3,4 +3,4 @@ define ['jquery', 'models/category'], ($, Category) ->
     model: Category
     url: '/api/categories'
 
-    comparator: (m) -> m.get('order')
+    comparator: (m) -> m.get('name')

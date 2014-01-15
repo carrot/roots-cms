@@ -13,7 +13,7 @@ require.config
     marionette: ['vendor/backbone.marionette']
     underscore: ['vendor/underscore']
 
-require ['collections/categories', 'views/content_collection'], (Categories, ContentCollectionView) ->
+require ['marionette', 'collections/categories', 'views/categories'], (Marionette, Categories, CategoriesView) ->
   App = new Marionette.Application()
 
   App.addRegions
@@ -22,8 +22,8 @@ require ['collections/categories', 'views/content_collection'], (Categories, Con
   App.on 'initialize:after', ->
     categories = new Categories
     categories.fetch
-      success: (collection, res, opts) -> console.log(collection)
-        # App.content.show(new ContentCollectionView(collection: collection))
+      success: (collection, res, opts) ->
+        App.content.show(new CategoriesView(collection: collection))
       fail: (collection, res, opts) -> console?.log?(collection, res, opts)
 
   App.start()

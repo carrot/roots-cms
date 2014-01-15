@@ -3,8 +3,5 @@ extend layout
 block content
   #content
 
-  script(id='content-item', type='text/template')
-    <%- path() %>
-
-  script(id='content-collection', type='text/template')
-    <h1><%- parent_dir %></h1>
+  script(id='category', type='text/template')
+    <%- name %>
