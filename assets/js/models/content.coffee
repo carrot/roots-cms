@@ -1,2 +1,3 @@
-define ['backbone'], (Backbone) ->
-  class Content extends Backbone.Model
+define ['backbone', 'backbone_relational'], (Backbone) ->
+  class Content extends Backbone.RelationalModel
+    urlRoot: '/api/content'

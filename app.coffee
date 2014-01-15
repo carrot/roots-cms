@@ -2,7 +2,6 @@ express = require('express')
 stylus = require('stylus')
 axis = require('axis-css')
 coffeescript = require('connect-coffee-script')
-open = require('open')
 
 app = express()
 
@@ -32,4 +31,3 @@ api = require('./api')
 app.use(api)
 
 app.listen(3000)
-open('http://localhost:3000')
