@@ -24,9 +24,8 @@ module.exports =
       .on 'end', =>
         cb(null, files)
       .on 'data', (f) =>
-        return false if f.parentDir.indexOf('node_modules') != -1
         @_detect_file(f.fullPath)
-          .then((res) => if res then files.push(f))
+          .then (res) => if res then files.push(f)
 
   _detect_file: (path) ->
     deferred = W.defer()
