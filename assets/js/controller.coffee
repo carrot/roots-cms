@@ -7,8 +7,7 @@ define ['app', 'marionette', 'collections/categories', 'models/content', 'views/
         fail: (collection, res, opts) -> console?.log?(collection, res, opts)
 
     show_content: (path) ->
-      content = new Content(id: path)
-      content.fetch
+      (new Content(id: path)).fetch
         success: (model, res, opts) ->
           App.content.show(new ContentShowView(model: model))
         fail: (model, res, opts) -> console.log(model, res, opts)
