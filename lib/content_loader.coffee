@@ -9,13 +9,13 @@ module.exports =
 
     @_detect_content_files dir, (err, files) =>
       content = @_load_content_from_files(files)
-      content = (c.data for c in content)
+      content = (c for c in content)
       deferred.resolve(content)
 
     return deferred.promise
 
   _load_content_from_files: (files) ->
-    return (new Content(f.fullPath, f.parentDir) for f in files)
+    return (new Content(f.path) for f in files)
 
   _detect_content_files: (dir, cb) ->
     files = []

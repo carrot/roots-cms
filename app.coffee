@@ -24,10 +24,9 @@ app.use coffeescript(
 app.use(express.bodyParser())
 app.use(express.static("#{__dirname}/public"))
 
-app.get "/", (req, res) ->
+app.use(require('./api'))
+
+app.get "*", (req, res) ->
   res.render 'index'
 
-api = require('./api')
-app.use(api)
-
-app.listen(3000)
+app.listen(2222)

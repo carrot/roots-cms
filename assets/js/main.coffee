@@ -17,7 +17,8 @@ require.config
 require ['app', 'marionette', 'router', 'controller'], (App, Marionette, Router, Controller) ->
 
   App.on 'initialize:after', ->
-    router = new Router(controller: new Controller)
-    Backbone.history.start()
+    new Router(controller: new Controller)
+    Backbone.history.start
+      pushState: true
 
   App.start()

@@ -1,3 +1,4 @@
+path = require('path')
 W = require('when')
 
 module.exports =
@@ -9,7 +10,7 @@ module.exports =
     grouped = []
 
     for c in content
-      key = c.roots_cms_meta.parent_dir
+      key = path.dirname(c.get('id'))
       if not grouped[key]? then grouped[key] = []
       grouped[key].push(c)
 
@@ -18,8 +19,9 @@ module.exports =
   _to_json: (grouped) ->
     categories = []
 
-    for k, v of grouped
-      category = { name: k, content: v }
+    for key, content_array of grouped
+      json = (c.to_json() for c in content_array)
+      category = { name: key, content: json }
       categories.push(category)
 
     return categories

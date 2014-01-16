@@ -1,12 +1,15 @@
 fs = require('fs')
+path = require('path')
 js_yaml = require('js-yaml')
+config = require('../config')
 
 module.exports = class Content
-  constructor: (path, parent_dir) ->
+  constructor: (file_path) ->
     @matcher = /^---\s*\n([\s\S]*?)\n?---\s*\n?/
-    @path = path
-    @parent_dir = parent_dir
-    @contents = fs.readFileSync(@path, 'utf8')
+    @data = {}
+    @file_path = file_path
+    @full_path = path.join(config.root_dir, @file_path)
+    @contents = fs.readFileSync(@full_path, 'utf8')
     @parse()
 
   get: (str) -> @data[str]
@@ -14,13 +17,15 @@ module.exports = class Content
   set: (attr, val) -> @data[attr] = val
 
   save: ->
-    delete @data.roots_cms_meta
-    @contents = @contents.replace(@matcher, "---\n#{js_yaml.safeDump(@data)}---\n")
-    fs.writeFileSync(@path, @contents)
+    @contents = "---\n#{js_yaml.safeDump(@get('data'))}---\n"
+      .concat(@get('content'))
+    fs.writeFileSync(@full_path, @contents)
 
   parse: ->
     front_matter = @contents.match(@matcher)
     if not front_matter then return false
-    @data = js_yaml.safeLoad(front_matter[1])
+    @set('data', js_yaml.safeLoad(front_matter[1]))
     @set('content', @contents.replace(@matcher, ''))
-    @set('roots_cms_meta', { @path, @parent_dir })
+    @set('id', @file_path)
+
+  to_json: -> return @data
