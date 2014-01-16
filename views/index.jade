@@ -8,4 +8,5 @@ block content
 
   script(id='content-show', type='text/template')
     <h1><%- id %></h1>
-    <p><%- content %></p>
+    <div class='content-area'><%= markdownContent() %></div>
+    <button>SAVE</button>
