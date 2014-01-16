@@ -3,14 +3,14 @@ W = require('when')
 
 module.exports =
   sort: (content) ->
-    grouped = @_group_content_by_category(content)
+    grouped = @_group_by_category(content)
     categories = @_to_json(grouped)
 
-  _group_content_by_category: (content) ->
+  _group_by_category: (content) ->
     grouped = []
 
     for c in content
-      key = path.dirname(c.get('id'))
+      key = c.category
       if not grouped[key]? then grouped[key] = []
       grouped[key].push(c)
 

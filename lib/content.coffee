@@ -9,6 +9,7 @@ module.exports = class Content
     @data = {}
     @file_path = file_path
     @full_path = path.join(config.root_dir, @file_path)
+    @category = path.dirname(@file_path)
     @contents = fs.readFileSync(@full_path, 'utf8')
     @parse()
 
