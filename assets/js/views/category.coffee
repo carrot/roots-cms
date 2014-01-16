@@ -3,8 +3,11 @@ define ['marionette', 'templates', 'jqueryui'], (Marionette, templates) ->
     template: templates.category
     tagName: 'li'
 
-    # templateHelpers: ->
-      # path: ->
-        # @roots_cms_meta['path'].split('/').reverse()[0]
+    events:
+      'click': 'path'
 
-    # meta: (key) -> console.log(@.meta)
+    path: ->
+      folder = @model.get('name')
+      console.log 'posts/' + folder
+      # App.request('router').navigate(path)
+
