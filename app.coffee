@@ -2,6 +2,7 @@ express = require('express')
 stylus = require('stylus')
 axis = require('axis-css')
 coffeescript = require('connect-coffee-script')
+require('./lib/precompile')()
 
 app = express()
 

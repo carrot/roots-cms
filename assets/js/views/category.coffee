@@ -1,6 +1,6 @@
-define ['marionette', 'jqueryui'], (Marionette) ->
+define ['marionette', 'templates', 'jqueryui'], (Marionette, templates) ->
   class Category extends Marionette.ItemView
-    template: '#category'
+    template: templates.category
     tagName: 'li'
 
     # templateHelpers: ->
