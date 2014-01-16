@@ -9,7 +9,7 @@ module.exports =
     grouped = []
 
     for c in content
-      key = c.roots_cms_meta.parent_dir
+      key = c.meta.parent_dir
       if not grouped[key]? then grouped[key] = []
       grouped[key].push(c)
 
