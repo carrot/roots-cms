@@ -25,6 +25,10 @@ app.use coffeescript(
 app.use(express.bodyParser())
 app.use(express.static("#{__dirname}/public"))
 
+[user, password] = [process.env.USER, process.env.PASSWORD]
+if user && password
+  app.use(express.basicAuth(process.env.USER, process.env.PASSWORD))
+
 app.use(require('./api'))
 
 app.get "*", (req, res) ->
