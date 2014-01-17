@@ -1,4 +1,4 @@
-define ['marionette', 'templates', 'jqueryui'], (Marionette, templates) ->
+define ['app', 'marionette', 'templates', 'jqueryui'], (App, Marionette, templates) ->
   class Category extends Marionette.ItemView
     template: templates.category
     tagName: 'li'
@@ -7,7 +7,7 @@ define ['marionette', 'templates', 'jqueryui'], (Marionette, templates) ->
       'click': 'path'
 
     path: ->
-      folder = @model.get('name')
-      console.log 'posts/' + folder
-      # App.request('router').navigate(path)
+      path = 'category/' + @model.get('name')
+      App.request('router').navigate(path, {trigger: true})
+
 

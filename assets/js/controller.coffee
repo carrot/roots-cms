@@ -12,18 +12,10 @@ define ['app', 'marionette', 'collections/categories', 'models/content', 'views/
           App.content.show(new ContentShowView(model: model))
         fail: (model, res, opts) -> console.log(model, res, opts)
 
-
     list_posts: (folder) ->
       (new Categories).fetch
         success: (collection, res, opts) ->
-          App.content.show(new PostsView(id: folder, collection: collection))
-
-          # console.log collection.cont
-          # console.log folder
-          # console.log res
-          # App.content.show(new CategoriesView(collection: collection.models))
-
-          # App.content.show(new ContentCollectionView(collection: collection.models[0]))
-
-          # App.content.show(new ContentShowView(model: model))
+          category = collection.find (m) -> m.get('name') == folder
+          posts = category.get('content')
+          App.content.show(new PostsView(collection: posts))
         fail: (model, res, opts) -> console.log(model, res, opts)
