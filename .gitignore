@@ -5,3 +5,4 @@ public/*
 public/js/*
 !public/js/vendor/
 deploy.conf
+config.coffee
