@@ -1,3 +1,17 @@
 h1= id
-.content-area!= content_to_html()
 button SAVE
+
+#main
+  .post.single
+    a.header.single(href="#{data.url}")
+      img(src="http://api.bycarrot.com/staff/#{data.author_slug}/svg")
+      h2= data.title
+      small
+        | by 
+        = data.author
+    .body
+
+      .meta
+        date= data.date
+
+      .contents!= content_to_html()

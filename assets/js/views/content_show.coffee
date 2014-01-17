@@ -3,7 +3,7 @@ define ['marionette', 'templates', 'marked', 'pen', 'html_md', 'pen_markdown'], 
     template: templates.content_show
 
     ui:
-      'content_area': '.content-area'
+      'content': '.contents'
 
     events:
       'click button': 'save'
@@ -12,9 +12,9 @@ define ['marionette', 'templates', 'marked', 'pen', 'html_md', 'pen_markdown'], 
       content_to_html: (-> marked(@model.get('content'))).bind(@)
 
     onRender: ->
-      new Pen(@ui.content_area[0])
+      new Pen(@ui.content[0])
 
     save: ->
-      modified_content = md(@ui.content_area.html())
+      modified_content = md(@ui.content.html())
       @model.set('content', modified_content)
       @model.save()
