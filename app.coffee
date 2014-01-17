@@ -2,6 +2,7 @@ express = require('express')
 stylus = require('stylus')
 axis = require('axis-css')
 coffeescript = require('connect-coffee-script')
+config = require('./config')
 require('./lib/precompile')()
 
 app = express()
@@ -25,9 +26,8 @@ app.use coffeescript(
 app.use(express.bodyParser())
 app.use(express.static("#{__dirname}/public"))
 
-[user, password] = [process.env.USER, process.env.PASSWORD]
-if user && password
-  app.use(express.basicAuth(process.env.USER, process.env.PASSWORD))
+if config.basic_auth == true
+  app.use(express.basicAuth(config.username, config.password))
 
 app.use(require('./api'))
 
