@@ -1,0 +1,5 @@
+module.exports =
+  root_dir: process.cwd()
+  basic_auth: false
+  username: 'user'
+  password: 'password'

@@ -1,0 +1,6 @@
+[production]
+user deployer
+host 123.456.7.890
+repo git@github.com:carrot/roots-cms.git
+path /var/www/roots-cms
+ref origin/master

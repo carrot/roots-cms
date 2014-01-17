@@ -2,6 +2,7 @@ express = require('express')
 stylus = require('stylus')
 axis = require('axis-css')
 coffeescript = require('connect-coffee-script')
+config = require('./config')
 require('./lib/precompile')()
 
 app = express()
@@ -25,9 +26,12 @@ app.use coffeescript(
 app.use(express.bodyParser())
 app.use(express.static("#{__dirname}/public"))
 
+if config.basic_auth == true
+  app.use(express.basicAuth(config.username, config.password))
+
 app.use(require('./api'))
 
 app.get "*", (req, res) ->
   res.render 'index'
 
-app.listen(2222)
+app.listen(process.env.PORT || 2222)
