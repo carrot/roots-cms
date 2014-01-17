@@ -1,13 +1,11 @@
 define ['app', 'marionette', 'templates', 'jqueryui'], (App, Marionette, templates) ->
-  class Category extends Marionette.ItemView
-    template: templates.category
+  class PostView extends Marionette.ItemView
+    template: templates.post
     tagName: 'li'
 
     events:
       'click': 'path'
 
     path: ->
-      path = 'category/' + @model.get('name')
+      path = 'content/' + @model.get('id')
       App.request('router').navigate(path, {trigger: true})
-
-
