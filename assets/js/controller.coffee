@@ -7,6 +7,10 @@ define ['app', 'marionette', 'collections/categories', 'models/content', 'views/
         fail: (collection, res, opts) -> console?.log?(collection, res, opts)
 
     show_content: (path) ->
+      # Find cached model in Backbone Relational store if exists
+      if model = Content.findOrCreate(path)
+        return App.content.show(new ContentShowView(model: model))
+
       (new Content(id: path)).fetch
         success: (model, res, opts) ->
           App.content.show(new ContentShowView(model: model))
