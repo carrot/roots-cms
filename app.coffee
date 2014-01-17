@@ -30,4 +30,4 @@ app.use(require('./api'))
 app.get "*", (req, res) ->
   res.render 'index'
 
-app.listen(2222)
+app.listen(process.env.PORT || 2222)
