@@ -1,6 +1,7 @@
 express = require('express')
 stylus = require('stylus')
 axis = require('axis-css')
+grate = require('grate')
 coffeescript = require('connect-coffee-script')
 config = require('./config')
 require('./lib/precompile')()
@@ -14,7 +15,7 @@ app.use(express.logger('dev'))
 app.use stylus.middleware(
   src: __dirname + '/assets'
   dest: __dirname + '/public'
-  compile: (str, path) -> stylus(str).set('filename', path).use(axis())
+  compile: (str, path) -> stylus(str).set('filename', path).use(axis()).use(grate())
 )
 
 app.use coffeescript(
