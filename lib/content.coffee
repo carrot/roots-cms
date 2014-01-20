@@ -1,7 +1,7 @@
 fs = require('fs')
 path = require('path')
 js_yaml = require('js-yaml')
-config = require('../config')
+config = require('../lib/config')
 
 module.exports = class Content
   constructor: (file_path) ->

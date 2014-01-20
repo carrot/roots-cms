@@ -1,7 +1,7 @@
 require('coffee-script')
 express = require('express')
 path = require('path')
-config = require('./config')
+config = require('./lib/config')
 ContentLoader = require('./lib/content_loader')
 Category = require('./lib/category')
 Content = require('./lib/content')

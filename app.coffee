@@ -3,7 +3,7 @@ stylus = require('stylus')
 axis = require('axis-css')
 grate = require('grate')
 coffeescript = require('connect-coffee-script')
-config = require('./config')
+config = require('./lib/config')
 require('./lib/precompile')()
 
 app = express()
