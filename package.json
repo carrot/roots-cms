@@ -29,7 +29,8 @@
     "underscore": "1.5.x",
     "connect-coffee-script": "0.1.x",
     "js-yaml": "~3.0.1",
-    "grate": "0.0.2"
+    "grate": "0.0.2",
+    "deepmerge": "~0.2.7"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
