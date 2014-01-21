@@ -1,6 +1,7 @@
 fs = require('fs')
 path = require('path')
 jade = require('jade')
+config = require('./config')
 
 module.exports = ->
   src_dir = path.join(__dirname, '..', 'assets', 'js', 'templates')
@@ -9,17 +10,12 @@ module.exports = ->
   files = fs.readdirSync(src_dir)
   templates = []
 
-  for file in files
-    if /\.jade$/.test(file)
-      name = path.basename(file, ".jade")
-      file_path = path.join(src_dir, file)
-      contents = fs.readFileSync(file_path, "utf8")
-
-      templates[name] = jade.compile contents,
-        debug: false
-        compileDebug: true
-        filename: file_path
-        client: true
+  for key, file_path of config.templates
+    templates[key] = jade.compile fs.readFileSync(file_path, 'utf8'),
+      debug: false
+      compileDebug: true
+      filename: file_path
+      client: true
 
   properties = []
 
