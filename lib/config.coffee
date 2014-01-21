@@ -8,9 +8,9 @@ defaults =
   username: 'admin'
   password: 'password'
   templates:
-    content_show: 'assets/templates/content_show.jade'
-    category: 'assets/templates/category.jade'
-    post: 'assets/templates/post.jade'
+    content_show: path.join(__dirname, '..', 'assets', 'templates', 'content_show.jade')
+    category: path.join(__dirname, '..', 'assets', 'templates', 'category.jade')
+    post: path.join(__dirname, '..', 'assets', 'templates', 'post.jade')
 
 custom = require(path.join(defaults.project_dir, 'cms'))
 
