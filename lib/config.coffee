@@ -1,8 +1,13 @@
 path = require('path')
 merge = require('deepmerge')
 
+try
+  config = require('../config')
+catch
+  config = null
+
 defaults =
-  project_dir: require('../config').project_dir || process.cwd()
+  project_dir: config?.project_dir || process.cwd()
   content_dir: ''
   basic_auth: false
   username: 'admin'
@@ -12,12 +17,16 @@ defaults =
     category: path.join(__dirname, '..', 'assets', 'templates', 'category.jade')
     post: path.join(__dirname, '..', 'assets', 'templates', 'post.jade')
 
-custom = require(path.join(defaults.project_dir, 'cms'))
+# attempt to load custom config from project
+try
+  custom = require(path.join(defaults.project_dir, 'cms'))
 
-# convert custom template paths to their absolute path
-for k, v of custom.templates
-  custom.templates[k] = path.join(defaults.project_dir, v)
+  # convert custom template paths to their absolute path
+  for k, v of custom.templates
+    custom.templates[k] = path.join(defaults.project_dir, v)
 
-options = merge(defaults, custom)
+  options = merge(defaults, custom)
+catch
+  options = defaults
 
 module.exports = options
