@@ -13,7 +13,7 @@ module.exports = ->
     if /\.jade$/.test(file)
       name = path.basename(file, ".jade")
       file_path = path.join(src_dir, file)
-      contents = fs.readFileSync(file_path, encoding: "utf8")
+      contents = fs.readFileSync(file_path, "utf8")
 
       templates[name] = jade.compile contents,
         debug: false
