@@ -1,14 +1,14 @@
 fs = require('fs')
 path = require('path')
 js_yaml = require('js-yaml')
-config = require('../config')
+config = require('../lib/config')
 
 module.exports = class Content
   constructor: (file_path) ->
     @matcher = /^---\s*\n([\s\S]*?)\n?---\s*\n?/
     @data = {}
     @file_path = file_path
-    @full_path = path.join(config.root_dir, @file_path)
+    @full_path = path.join(config.project_dir, config.content_dir, @file_path)
     @category = path.dirname(@file_path)
     @contents = fs.readFileSync(@full_path, 'utf8')
     @parse()

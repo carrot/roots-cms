@@ -4,5 +4,5 @@ public/*
 !public/js/
 public/js/*
 !public/js/vendor/
-deploy.conf
-config.coffee
+config.json
+assets/css/custom.styl

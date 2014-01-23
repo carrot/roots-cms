@@ -1,7 +1,7 @@
 require('coffee-script')
 express = require('express')
 path = require('path')
-config = require('./config')
+config = require('./lib/config')
 ContentLoader = require('./lib/content_loader')
 Category = require('./lib/category')
 Content = require('./lib/content')
@@ -9,7 +9,7 @@ Content = require('./lib/content')
 module.exports = api = express()
 
 api.get '/api/categories', (req, res) ->
-  ContentLoader.all(config.root_dir)
+  ContentLoader.all(path.join(config.project_dir, config.content_dir))
     .then (content) -> res.json(Category.sort(content))
 
 api.get '/api/content/:path', (req, res) ->

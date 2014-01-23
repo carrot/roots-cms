@@ -1,25 +1,20 @@
 fs = require('fs')
 path = require('path')
 jade = require('jade')
+config = require('./config')
 
 module.exports = ->
-  src_dir = path.join(__dirname, '..', 'assets', 'js', 'templates')
-  dest_file = path.join(__dirname, '..', 'public', 'js', 'templates.js')
+  # precompile templates
 
-  files = fs.readdirSync(src_dir)
   templates = []
 
-  for file in files
-    if /\.jade$/.test(file)
-      name = path.basename(file, ".jade")
-      file_path = path.join(src_dir, file)
-      contents = fs.readFileSync(file_path, encoding: "utf8")
-
-      templates[name] = jade.compile contents,
-        debug: false
-        compileDebug: true
-        filename: file_path
-        client: true
+  for key, file_path of config.templates
+    file = fs.readFileSync(file_path, 'utf8')
+    templates[key] = jade.compile file,
+      debug: false
+      compileDebug: true
+      filename: file_path
+      client: true
 
   properties = []
 
@@ -28,4 +23,10 @@ module.exports = ->
 
   source_code = "define(['vendor/jade_runtime'], function(jade) {\n return {\n#{properties.join(',\n\n')}\n};\n});"
 
-  fs.writeFileSync(dest_file, source_code)
+  fs.writeFileSync(path.join(__dirname, '..', 'public', 'js', 'templates.js'), source_code)
+
+  # copy custom stylesheets over
+  if config.css then css_path = path.join(config.project_dir, config.css)
+  if css_path && fs.existsSync(css_path)
+    custom_css = fs.readFileSync(css_path, 'utf8')
+    fs.writeFileSync(path.join(__dirname, '..', 'assets', 'css', 'custom.styl'), custom_css)

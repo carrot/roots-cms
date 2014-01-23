@@ -3,7 +3,7 @@ stylus = require('stylus')
 axis = require('axis-css')
 grate = require('grate')
 coffeescript = require('connect-coffee-script')
-config = require('./config')
+config = require('./lib/config')
 require('./lib/precompile')()
 
 app = express()
@@ -27,8 +27,8 @@ app.use coffeescript(
 app.use(express.bodyParser())
 app.use(express.static("#{__dirname}/public"))
 
-if config.basic_auth == true
-  app.use(express.basicAuth(config.username, config.password))
+if config.basic_auth
+  app.use(express.basicAuth(config.basic_auth.username, config.basic_auth.password))
 
 app.use(require('./api'))
 

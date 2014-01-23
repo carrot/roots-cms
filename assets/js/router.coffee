@@ -3,4 +3,4 @@ define ['app', 'marionette'], (App, Marionette) ->
     appRoutes:
       '': 'list_categories'
       'category/*folder': 'list_posts'
-      'content/*path': 'show_content'
+      'content/*path': 'edit_content'
