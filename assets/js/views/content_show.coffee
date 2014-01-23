@@ -1,4 +1,4 @@
-define ['marionette', 'templates', 'marked', 'pen', 'html_md', 'pen_markdown'], (Marionette, templates, marked, Pen, md) ->
+define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'pen_markdown'], (Marionette, templates, _, marked, Pen, md) ->
   class ContentShow extends Marionette.ItemView
     template: templates.content_show
 
@@ -16,10 +16,10 @@ define ['marionette', 'templates', 'marked', 'pen', 'html_md', 'pen_markdown'], 
       new Pen(@ui.content[0])
 
     get_data: ->
-      content = {}
-      for el in @ui.data
-        content[$(el).attr('name')] = $(el).val()
-      return content
+      _.reduce @ui.data, (data, el) ->
+        data[$(el).attr('name')] = $(el).val()
+        return data
+      , {}
 
     save: ->
       modified_content = md(@ui.content.html())

@@ -13,6 +13,7 @@ module.exports = ->
     templates[key] = jade.compile file,
       debug: false
       compileDebug: true
+      filename: file_path
       client: true
 
   properties = []

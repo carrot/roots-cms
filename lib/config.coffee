@@ -1,5 +1,5 @@
 path = require('path')
-merge = require('deepmerge')
+_ = require('lodash')
 
 try
   config = require('../config')
@@ -25,7 +25,7 @@ try
   for k, v of custom.templates
     custom.templates[k] = path.join(defaults.project_dir, v)
 
-  options = merge(defaults, custom)
+  options = _.merge(defaults, custom)
 catch
   options = defaults
 
