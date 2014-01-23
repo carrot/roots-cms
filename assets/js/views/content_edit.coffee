@@ -1,6 +1,6 @@
 define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'pen_markdown'], (Marionette, templates, _, marked, Pen, md) ->
-  class ContentShow extends Marionette.ItemView
-    template: templates.content_show
+  class ContentEdit extends Marionette.ItemView
+    template: templates.content_edit
 
     ui:
       'content': '.contents'

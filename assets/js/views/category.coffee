@@ -9,5 +9,3 @@ define ['app', 'marionette', 'templates', 'jqueryui'], (App, Marionette, templat
     path: ->
       path = 'category/' + @model.get('name')
       App.request('router').navigate(path, {trigger: true})
-
-

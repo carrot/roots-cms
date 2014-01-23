@@ -4,5 +4,4 @@ define ['backbone', 'collections/content_collection', 'models/content', 'backbon
       type: Backbone.HasMany
       key: 'content'
       relatedModel: Content
-      # collectionType: 'ContentCollection'
     ]
