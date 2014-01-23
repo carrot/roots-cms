@@ -10,8 +10,6 @@ defaults =
   project_dir: config?.project_dir || process.cwd()
   content_dir: ''
   basic_auth: false
-  username: 'admin'
-  password: 'password'
   templates:
     content_show: path.join(__dirname, '..', 'assets', 'templates', 'content_show.jade')
     category: path.join(__dirname, '..', 'assets', 'templates', 'category.jade')
