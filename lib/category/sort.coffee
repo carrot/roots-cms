@@ -1,3 +1,8 @@
+fs = require('fs')
+path = require('path')
+config = require('../config')
+Content = require('../content')
+
 module.exports =
   by_category: (content) ->
     grouped = @_group_by_category(content)
@@ -18,7 +23,18 @@ module.exports =
 
     for key, content_array of grouped
       json = (c.to_json() for c in content_array)
-      category = { name: key, content: json }
+
+      category = {}
+
+      template_path = path.join(key, '_template.md')
+      if fs.existsSync(path.join(config.project_dir, config.content_dir, template_path))
+        template = new Content(template_path)
+        template.set('id', null)
+        category.template = template.to_json()
+
+      category.name = key
+      category.content = json
+
       categories.push(category)
 
     return categories
