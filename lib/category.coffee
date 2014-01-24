@@ -1,27 +1,14 @@
-path = require('path')
 W = require('when')
+sort = require('./category/sort')
+load = require('./category/load')
 
 module.exports =
-  sort: (content) ->
-    grouped = @_group_by_category(content)
-    categories = @_to_json(grouped)
+  class Category
+    @all: (dir) ->
+      deferred = W.defer()
 
-  _group_by_category: (content) ->
-    grouped = []
+      load.all_dynamic_content(dir).then (content) ->
+        category_json = sort.by_category(content)
+        deferred.resolve(category_json)
 
-    for c in content
-      key = c.category
-      if not grouped[key]? then grouped[key] = []
-      grouped[key].push(c)
-
-    return grouped
-
-  _to_json: (grouped) ->
-    categories = []
-
-    for key, content_array of grouped
-      json = (c.to_json() for c in content_array)
-      category = { name: key, content: json }
-      categories.push(category)
-
-    return categories
+      return deferred.promise
