@@ -5,10 +5,19 @@ config = require('../lib/config')
 
 module.exports = class Content
   constructor: (file_path) ->
-    @matcher = /^---\s*\n([\s\S]*?)\n?---\s*\n?/
-    @data = {}
+    if path.extname(file_path) != '.md'
+      file_path = file_path + '.md'
+
     @file_path = file_path
     @full_path = path.join(config.project_dir, config.content_dir, @file_path)
+
+    if not fs.existsSync(@full_path)
+      template_path = path.join(@full_path, '..', '_template.md')
+      template = fs.readFileSync(template_path, 'utf8')
+      fs.writeFileSync(path.join(@full_path), template)
+
+    @matcher = /^---\s*\n([\s\S]*?)\n?---\s*\n?/
+    @data = {}
     @category = path.dirname(@file_path)
     @contents = fs.readFileSync(@full_path, 'utf8')
     @parse()

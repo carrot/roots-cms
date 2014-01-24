@@ -26,3 +26,4 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'pe
       @model.set('content', modified_content)
       @model.set('data', @get_data())
       @model.save()
+      @render()
