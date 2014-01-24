@@ -7,6 +7,7 @@ require.config
     pen: { deps: ['jquery'], exports: 'Pen' }
     pen_markdown: { deps: ['pen'] }
     marionette: { deps: ['backbone'], exports: 'Marionette' }
+    modal: { deps: ['jquery'] }
 
   paths:
     app: 'application'
@@ -17,6 +18,7 @@ require.config
     jqueryui: 'vendor/jqueryui'
     marked: 'vendor/marked'
     marionette: 'vendor/backbone.marionette'
+    modal: 'vendor/jquery_easy_modal'
     pen: 'vendor/pen/src/pen'
     pen_markdown: 'vendor/pen/src/markdown'
     underscore: 'vendor/underscore'
