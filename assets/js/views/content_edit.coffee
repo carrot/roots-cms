@@ -5,12 +5,15 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'pe
     ui:
       'content': '.contents'
       'data': '.data input'
+      'back': '.back'
 
     events:
       'click button': 'save'
+      'click .back': 'go_back'
 
     templateHelpers: ->
       content_to_html: (-> marked(@model.get('content'))).bind(@)
+      category: (-> @category_display()).bind(@)
 
     onRender: ->
       new Pen(@ui.content[0])
@@ -20,6 +23,11 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'pe
         data[$(el).attr('name')] = $(el).val()
         return data
       , {}
+
+    category_display: ->
+      cats = @model.get('id').split('/')
+      cats.pop()
+      cats.join('/')
 
     save: ->
       modified_content = md(@ui.content.html())
