@@ -1,5 +1,5 @@
-define ['marionette', 'views/post', 'jquery', 'jqueryui'], (Marionette, PostView, $) ->
-  class PostsView extends Marionette.CollectionView
-    template: '#posts'
-    tagName: 'ul'
+define ['marionette', 'views/post', 'jquery', 'templates', 'jqueryui'], (Marionette, PostView, $, templates) ->
+  class PostsView extends Marionette.CompositeView
+    template: templates.posts
+    itemViewContainer: 'ul'
     itemView: PostView

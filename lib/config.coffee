@@ -11,9 +11,10 @@ defaults =
   content_dir: ''
   basic_auth: false
   templates:
-    content_show: path.join(__dirname, '..', 'assets', 'templates', 'content_edit.jade')
+    content_edit: path.join(__dirname, '..', 'assets', 'templates', 'content_edit.jade')
     category: path.join(__dirname, '..', 'assets', 'templates', 'category.jade')
     post: path.join(__dirname, '..', 'assets', 'templates', 'post.jade')
+    posts: path.join(__dirname, '..', 'assets', 'templates', 'posts.jade')
 
 # attempt to load custom config from project
 try
