@@ -3,7 +3,7 @@ Roots-CMS
 
 A tool for easier dynamic content management in [roots](http://roots.cx/) projects.
 
-> **Note:** This project is in early development and the only feature currently available is reordering your dynamic content. Tests and content editing features planned for future releases.
+> **Note:** This project is in early, active development and is not ready for use. Expect any and all API specs to change at any notice, there's still a lot of experimentation going on around here. If you'd like to contribute or view the project so far, the most stable branch is `develop`.
 
 ### Installation
 
