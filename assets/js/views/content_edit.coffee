@@ -1,4 +1,4 @@
-define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'pen_markdown'], (Marionette, templates, _, marked, Pen, md) ->
+define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dropzone', 'pen_markdown'], (Marionette, templates, _, marked, Pen, Dropzone, md) ->
   class ContentEdit extends Marionette.ItemView
     template: templates.content_edit
 
@@ -6,10 +6,13 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'pe
       'content': '.contents'
       'data': '.data input'
       'back': '.back'
+      'upload': '.upload'
+      'upload_area': '.upload-area'
 
     events:
       'click button': 'save'
       'click .back': 'go_back'
+      'click .upload': 'upload_image'
 
     templateHelpers: ->
       content_to_html: (-> marked(@model.get('content'))).bind(@)
@@ -28,6 +31,9 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'pe
       cats = @model.get('id').split('/')
       cats.pop()
       cats.join('/')
+
+    upload_image: ->
+      @ui.upload_area.show().dropzone(url: '/api/upload_image')
 
     save: ->
       modified_content = md(@ui.content.html())

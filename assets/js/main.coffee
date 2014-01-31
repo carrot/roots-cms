@@ -13,6 +13,7 @@ require.config
     app: 'application'
     backbone: 'vendor/backbone'
     backbone_relational: 'vendor/backbone-relational'
+    dropzone: 'vendor/dropzone'
     html_md: 'vendor/md.min'
     jquery: 'vendor/jquery'
     jqueryui: 'vendor/jqueryui'
