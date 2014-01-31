@@ -1,4 +1,4 @@
-define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dropzone', 'pen_markdown'], (Marionette, templates, _, marked, Pen, Dropzone, md) ->
+define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dropzone', 'pen_markdown'], (Marionette, templates, _, marked, Pen, md, Dropzone) ->
   class ContentEdit extends Marionette.ItemView
     template: templates.content_edit
 
@@ -19,7 +19,12 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dr
       category: (-> @category_display()).bind(@)
 
     onRender: ->
-      new Pen(@ui.content[0])
+      new Pen
+        editor: @ui.content[0]
+        list: [
+          'blockquote', 'h2', 'h3', 'p', 'insertorderedlist', 'insertunorderedlist',
+          'indent', 'outdent', 'bold', 'italic', 'underline', 'createlink', 'image'
+        ]
 
     get_data: ->
       _.reduce @ui.data, (data, el) ->
@@ -33,7 +38,10 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dr
       cats.join('/')
 
     upload_image: ->
-      @ui.upload_area.show().dropzone(url: '/api/upload_image')
+      @ui.upload_area.show()
+      drop = new Dropzone(@ui.upload_area[0], { url: '/api/upload_image', })
+      drop.on 'success', (file, res) =>
+        @ui.upload_area.replaceWith("<img src=\"#{res.url}\"/>")
 
     save: ->
       modified_content = md(@ui.content.html())

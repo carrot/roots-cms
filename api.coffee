@@ -5,6 +5,7 @@ fs = require('fs')
 config = require('./lib/config')
 Category = require('./lib/category')
 Content = require('./lib/content')
+aws_client = require('./lib/aws_client')
 
 module.exports = api = express()
 
@@ -24,9 +25,18 @@ api.put '/api/content/:path', (req, res) ->
   res.send('success')
 
 api.post '/api/upload_image', (req, res) ->
-  fs.readFile req.files.file.path, (err, data) ->
+  fs.readFile req.files.file.path, (err, buf) ->
     file_name = "img_#{(new Date).getTime()}.png"
-    dest_path = path.join(config.project_dir, 'assets', 'img', 'uploads', file_name)
 
-    fs.writeFile dest_path, data, (err) ->
-      res.send('success')
+    req = aws_client.put "/uploads/#{file_name}",
+      'Content-Length': buf.length
+      'Content-Type': 'image/jpg'
+      'x-amz-acl': 'public-read'
+
+    req.on 'response', (aws_res) ->
+      if 200 == aws_res.statusCode
+        console.log('saved to %s', req.url)
+
+      res.json({url: req.url})
+
+    req.end(buf)

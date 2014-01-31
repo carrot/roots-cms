@@ -29,7 +29,8 @@
     "connect-coffee-script": "0.1.x",
     "js-yaml": "~3.0.1",
     "grate": "0.0.2",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "knox": "~0.8.8"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
