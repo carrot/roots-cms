@@ -12,7 +12,6 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dr
     events:
       'click button': 'save'
       'click .back': 'go_back'
-      'click .upload': 'upload_image'
 
     templateHelpers: ->
       content_to_html: (-> marked(@model.get('content'))).bind(@)
@@ -23,8 +22,15 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dr
         editor: @ui.content[0]
         list: [
           'blockquote', 'h2', 'h3', 'p', 'insertorderedlist', 'insertunorderedlist',
-          'indent', 'outdent', 'bold', 'italic', 'underline', 'createlink', 'image'
+          'indent', 'outdent', 'bold', 'italic', 'underline', 'createlink', 'inserthtml'
         ]
+        debug: true
+        inserthtml: "<span class='upload-area'>Drag and drop, or click to upload an image</span>"
+        inserthtml_cb: ->
+          drop = new Dropzone($('.upload-area')[0], { url: '/api/upload_image' })
+          drop.on 'success', (file, res) ->
+            $('.upload-area').replaceWith("<img src=\"#{res.url}\"/>")
+
 
     get_data: ->
       _.reduce @ui.data, (data, el) ->
@@ -36,12 +42,6 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dr
       cats = @model.get('id').split('/')
       cats.pop()
       cats.join('/')
-
-    upload_image: ->
-      @ui.upload_area.show()
-      drop = new Dropzone(@ui.upload_area[0], { url: '/api/upload_image', })
-      drop.on 'success', (file, res) =>
-        @ui.upload_area.replaceWith("<img src=\"#{res.url}\"/>")
 
     save: ->
       modified_content = md(@ui.content.html())

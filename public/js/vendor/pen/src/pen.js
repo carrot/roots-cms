@@ -258,15 +258,24 @@
     reg = {
       block: /^(?:p|h[1-6]|blockquote|pre)$/,
       inline: /^(?:bold|italic|underline|insertorderedlist|insertunorderedlist|indent|outdent|inserthorizontalrule)$/,
-      source: /^(?:insertimage|createlink|unlink)$/
+      source: /^(?:insertimage|createlink|unlink|inserthtml)$/
     };
 
     overall = function(cmd, val) {
       var message = ' to exec 「' + cmd + '」 command' + (val ? (' with value: ' + val) : '');
+
+      if (cmd === 'inserthtml') {
+        val = that.config.inserthtml
+      }
+
       if(document.execCommand(cmd, false, val) && that.config.debug) {
         utils.log('success' + message);
       } else {
         utils.log('fail' + message);
+      }
+
+      if (cmd === 'inserthtml') {
+        that.config.inserthtml_cb()
       }
     };
 
