@@ -4,6 +4,7 @@ public/*
 !public/js/
 public/js/*
 !public/js/vendor/
+!public/img/
 config.json
 assets/css/custom.styl
 deploy.conf

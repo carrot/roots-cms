@@ -25,9 +25,11 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dr
           'indent', 'outdent', 'bold', 'italic', 'underline', 'createlink', 'inserthtml'
         ]
         debug: true
-        inserthtml: "<span class='upload-area'>Drag and drop, or click to upload an image</span>"
+        inserthtml: "<span class='upload-area' contenteditable='false'></span>"
         inserthtml_cb: ->
-          drop = new Dropzone($('.upload-area')[0], { url: '/api/upload_image' })
+          upload = $('.upload-area')[0]
+          $(upload).attr('contenteditable', false)
+          drop = new Dropzone(upload, { url: '/api/upload_image' })
           drop.on 'success', (file, res) ->
             $('.upload-area').replaceWith("<img src=\"#{res.url}\"/>")
 
