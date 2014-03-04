@@ -21,6 +21,8 @@ This starts an Express server and opens a browser to a GUI app for managing your
 
 While this app is primarily intended to be run locally, it can also be deployed to a server to manage a roots project repo on the server. Copy `config.coffee.example` and `deploy.conf.example`, remove `.example`, and update the config values. Note that this will not be a supported feature, but it is possible, try at your own risk.
 
+A more detailed guide to setting it up on a server can be found in the [wiki](https://github.com/carrot/roots-cms/wiki/Deploying-Roots-CMS-to-a-server).
+
 ### License (MIT)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
