@@ -3,7 +3,7 @@ Roots-CMS
 
 A tool for easier dynamic content management in [roots](http://roots.cx/) projects.
 
-> **Note:** This project is in early, active development and is not ready for use. Expect any and all API specs to change at any notice, there's still a lot of experimentation going on around here. If you'd like to contribute or view the project so far, the most stable branch is `develop`.
+> **Note:** This project is in early development, and versioning is a little different. [Read this](http://markup.im/#q4_cRZ1Q) for more details.
 
 ### Installation
 
@@ -22,11 +22,3 @@ This starts an Express server and opens a browser to a GUI app for managing your
 While this app is primarily intended to be run locally, it can also be deployed to a server to manage a roots project repo on the server. Copy `config.coffee.example` and `deploy.conf.example`, remove `.example`, and update the config values. Note that this will not be a supported feature, but it is possible, try at your own risk.
 
 A more detailed guide to setting it up on a server can be found in the [wiki](https://github.com/carrot/roots-cms/wiki/Deploying-Roots-CMS-to-a-server).
-
-### License (MIT)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
