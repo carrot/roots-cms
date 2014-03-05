@@ -1,3 +1,4 @@
+config = require('../config')
 W = require('when')
 aws_client = require('../aws_client')
 
@@ -9,7 +10,9 @@ class S3Uploader
   upload: (buf) ->
     deferred = W.defer()
 
-    req = @client.put "/uploads/#{"img_#{(new Date).getTime()}.png"}",
+    file_name = "img_#{(new Date).getTime()}.png"
+
+    req = @client.put "#{config.img_upload_dir}/#{file_name}",
       'Content-Length': buf.length
       'Content-Type': 'image/jpg'
       'x-amz-acl': 'public-read'

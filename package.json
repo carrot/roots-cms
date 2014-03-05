@@ -30,7 +30,8 @@
     "js-yaml": "~3.0.1",
     "grate": "0.0.2",
     "lodash": "~2.4.1",
-    "knox": "~0.8.8"
+    "knox": "~0.8.8",
+    "mkdirp": "~0.3.5"
   },
   "devDependencies": {
     "mocha": "~1.16.2",

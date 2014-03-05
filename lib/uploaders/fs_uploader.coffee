@@ -1,25 +1,24 @@
+path = require('path')
+fs = require('fs')
+config = require('../config')
 W = require('when')
 aws_client = require('../aws_client')
+mkdirp = require('mkdirp')
 
 class FSUploader
-
-  constructor: ->
-    @client = aws_client
 
   upload: (buf) ->
     deferred = W.defer()
 
-    req = @client.put "/uploads/#{"img_#{(new Date).getTime()}.png"}",
-      'Content-Length': buf.length
-      'Content-Type': 'image/jpg'
-      'x-amz-acl': 'public-read'
+    uploads_dir = path.join(config.project_dir, 'assets', 'img', config.img_upload_dir)
+    file_name = "img_#{(new Date).getTime()}.png"
 
-    req.on 'response', (res) ->
-      if 200 == res.statusCode
-        console.log('FSUploader saved image to %s', req.url)
-        deferred.resolve(req.url)
+    mkdirp uploads_dir, (err) ->
+      if err then return console.error(err)
 
-    req.end(buf)
+      fs.writeFile path.join(uploads_dir, file_name), buf, (err) ->
+        if err then return console.error(err)
+        deferred.resolve(path.join("/img", config.img_upload_dir, file_name))
 
     return deferred.promise
 
