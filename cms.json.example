@@ -1,0 +1,18 @@
+{
+  "content_dir": "blog_posts",
+  "basic_auth": {
+    "username": "username",
+    "password": "password"
+  },
+  "templates": {
+    "content_edit": "assets/cms/templates/_content_show.jade"
+  },
+  "css": "assets/css/_blogging.styl",
+  "aws": {
+    "key": "XXXXXXXXXXXXXXXXXX",
+    "secret": "XXXXXXXXXXXXXXXXX",
+    "bucket": "bucket-name"
+  },
+  "uploader": "s3",
+  "img_upload_dir": "uploads"
+}
