@@ -2,24 +2,27 @@ path = require('path')
 fs = require('fs')
 config = require('../config')
 W = require('when')
+nodefn = require('when/node/function')
 aws_client = require('../aws_client')
 mkdirp = require('mkdirp')
 
 class FSUploader
+  constructor: ->
+    @upload_dir = path.join(config.project_dir, 'assets', 'img', config.img_upload_dir)
+    @file_name = "img_#{(new Date).getTime()}.png"
 
-  upload: (buf) ->
-    deferred = W.defer()
+  upload: (@buf) ->
+    @_create_upload_dir()
+      .then(@_write_file.bind(@))
+      .then(@_return_url.bind(@))
 
-    uploads_dir = path.join(config.project_dir, 'assets', 'img', config.img_upload_dir)
-    file_name = "img_#{(new Date).getTime()}.png"
+  _create_upload_dir: ->
+    nodefn.call(mkdirp, @upload_dir)
 
-    mkdirp uploads_dir, (err) ->
-      if err then return console.error(err)
+  _write_file: ->
+    nodefn.call(fs.writeFile, path.join(@upload_dir, @file_name), @buf)
 
-      fs.writeFile path.join(uploads_dir, file_name), buf, (err) ->
-        if err then return console.error(err)
-        deferred.resolve(path.join("/img", config.img_upload_dir, file_name))
-
-    return deferred.promise
+  _return_url: ->
+    W.resolve(path.join("/img", config.img_upload_dir, @file_name))
 
 module.exports = FSUploader
