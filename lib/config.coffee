@@ -16,6 +16,7 @@ defaults =
     post: path.join(__dirname, '..', 'assets', 'templates', 'post.jade')
     posts: path.join(__dirname, '..', 'assets', 'templates', 'posts.jade')
   aws: null
+  uploader: 'fs'
 
 # attempt to load custom config from project
 try

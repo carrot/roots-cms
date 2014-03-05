@@ -5,7 +5,7 @@ fs = require('fs')
 config = require('./lib/config')
 Category = require('./lib/category')
 Content = require('./lib/content')
-S3Uploader = require('./lib/uploaders/s3_uploader')
+Uploader = require('./lib/uploader')
 
 module.exports = api = express()
 
@@ -26,6 +26,6 @@ api.put '/api/content/:path', (req, res) ->
 
 api.post '/api/upload_image', (req, res) ->
   fs.readFile req.files.file.path, (err, buf) ->
-    (new S3Uploader)
+    (new Uploader)
       .upload(buf)
       .then (url) -> res.json(url: url)
