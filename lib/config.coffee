@@ -2,8 +2,8 @@ path = require('path')
 _ = require('lodash')
 
 try
-  config = require('../config')
-catch
+  config = require('../config.json')
+catch err
   config = null
 
 defaults =
@@ -28,7 +28,7 @@ try
     custom.templates[k] = path.join(defaults.project_dir, v)
 
   options = _.merge(defaults, custom)
-catch
+catch err
   options = defaults
 
 module.exports = options
