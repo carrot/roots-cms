@@ -31,6 +31,9 @@ module.exports = class Content
       .concat(@get('content'))
     fs.writeFileSync(@full_path, @contents)
 
+  commit: ->
+    console.log("committing #{@full_path}")
+
   parse: ->
     front_matter = @contents.match(@matcher)
     if not front_matter then return false

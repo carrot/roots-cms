@@ -24,6 +24,11 @@ api.put '/api/content/:path', (req, res) ->
 
   res.send('success')
 
+api.post '/api/commit', (req, res) ->
+  content = new Content(req.body.id)
+  content.commit()
+  res.send('success')
+
 api.post '/api/upload_image', (req, res) ->
   fs.readFile req.files.file.path, (err, buf) ->
     (new Uploader)

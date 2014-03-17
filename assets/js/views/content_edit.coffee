@@ -1,4 +1,4 @@
-define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dropzone', 'pen_markdown'], (Marionette, templates, _, marked, Pen, md, Dropzone) ->
+define ['marionette', 'jquery', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dropzone', 'pen_markdown'], (Marionette, $, templates, _, marked, Pen, md, Dropzone) ->
   class ContentEdit extends Marionette.ItemView
     template: templates.content_edit
 
@@ -10,7 +10,8 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dr
       'upload_area': '.upload-area'
 
     events:
-      'click button': 'save'
+      'click .save': 'save'
+      'click .commit': 'commit'
       'click .back': 'go_back'
 
     templateHelpers: ->
@@ -51,3 +52,8 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dr
       @model.set('data', @get_data())
       @model.save()
       @render()
+
+    commit: ->
+      @save()
+      $.post('/api/commit', {id: @model.id})
+        .done -> alert('post')
