@@ -8,6 +8,7 @@ define ['marionette', 'jquery', 'templates', 'underscore', 'marked', 'pen', 'htm
       'back': '.back'
       'upload': '.upload'
       'upload_area': '.upload-area'
+      'message': '.message'
 
     events:
       'click .save': 'save'
@@ -54,6 +55,8 @@ define ['marionette', 'jquery', 'templates', 'underscore', 'marked', 'pen', 'htm
       @render()
 
     commit: ->
+      message = @ui.message.val()
       @save()
-      $.post('/api/commit', {id: @model.id})
-        .done -> alert('post')
+      $.post('/api/commit', {id: @model.id, message: message})
+        .done (data) ->
+          alert("successfully committed \"#{data}\"")

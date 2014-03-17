@@ -25,9 +25,14 @@ api.put '/api/content/:path', (req, res) ->
   res.send('success')
 
 api.post '/api/commit', (req, res) ->
-  content = new Content(req.body.id)
-  content.commit()
-  res.send('success')
+  id      = req.body.id
+  message = req.body.message
+  if message.length == 0 
+    message = "update #{id}"
+
+  content = new Content(id)
+  content.commit(message)
+  res.send(message)
 
 api.post '/api/upload_image', (req, res) ->
   fs.readFile req.files.file.path, (err, buf) ->

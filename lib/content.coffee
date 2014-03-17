@@ -2,6 +2,7 @@ fs = require('fs')
 path = require('path')
 js_yaml = require('js-yaml')
 config = require('../lib/config')
+Git = require('../lib/git')
 
 module.exports = class Content
   constructor: (file_path) ->
@@ -31,8 +32,8 @@ module.exports = class Content
       .concat(@get('content'))
     fs.writeFileSync(@full_path, @contents)
 
-  commit: ->
-    console.log("committing #{@full_path}")
+  commit: (message) ->
+    (new Git).commit([path.join(config.content_dir, @file_path)], message)
 
   parse: ->
     front_matter = @contents.match(@matcher)
