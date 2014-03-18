@@ -33,7 +33,7 @@ module.exports = class Content
     fs.writeFileSync(@full_path, @contents)
 
   commit: (message) ->
-    (new Git).commit([path.join(config.content_dir, @file_path)], message)
+    Git.commit(@_changed_files(), message)
 
   parse: ->
     front_matter = @contents.match(@matcher)
@@ -41,5 +41,22 @@ module.exports = class Content
     @set('data', js_yaml.safeLoad(front_matter[1]))
     @set('content', @contents.replace(@matcher, ''))
     @set('id', @file_path)
+
+  # returns array of changed files associated with this content
+  _changed_files: ->
+    files = []
+    files = files.concat(@_parse_image_paths())
+    files.push(path.join(config.content_dir, @file_path))
+    return files
+
+  # parses content for all local image paths and returns array of file paths
+  _parse_image_paths: ->
+    files = []
+    matched = @contents.match /(!\[.*\]\()(.*)(\))/g
+    for match in matched
+      single_match = match.match /(!\[.*\]\()(\/.*)(\))/
+      if single_match
+        files.push(path.join('assets', single_match[2]))
+    return files
 
   to_json: -> return @data

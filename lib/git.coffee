@@ -1,6 +1,6 @@
 shell = require('shelljs')
 
-module.exports = class Git
+class Git
   constructor: ->
     if not shell.which 'git'
       shell.echo 'Sorry, git does not appear to be installed'
@@ -11,3 +11,5 @@ module.exports = class Git
       shell.exec "git add #{file}"
 
     shell.exec "git commit -m \"#{message}\""
+
+module.exports = new Git
