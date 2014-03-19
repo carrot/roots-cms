@@ -1,4 +1,4 @@
-define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dropzone', 'pen_markdown'], (Marionette, templates, _, marked, Pen, md, Dropzone) ->
+define ['marionette', 'jquery', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dropzone', 'pen_markdown'], (Marionette, $, templates, _, marked, Pen, md, Dropzone) ->
   class ContentEdit extends Marionette.ItemView
     template: templates.content_edit
 
@@ -8,9 +8,14 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dr
       'back': '.back'
       'upload': '.upload'
       'upload_area': '.upload-area'
+      'message': '.message'
+      'modal': '.modal'
 
     events:
-      'click button': 'save'
+      'click .save': 'save'
+      'click .open-commit-modal': 'open_modal'
+      'click .close': 'close_modal'
+      'click .commit': 'commit'
       'click .back': 'go_back'
 
     templateHelpers: ->
@@ -18,6 +23,7 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dr
       category: (-> @category_display()).bind(@)
 
     onRender: ->
+      @ui.modal.easyModal()
       new Pen
         editor: @ui.content[0]
         list: [
@@ -51,3 +57,16 @@ define ['marionette', 'templates', 'underscore', 'marked', 'pen', 'html_md', 'dr
       @model.set('data', @get_data())
       @model.save()
       @render()
+
+    commit: ->
+      message = @ui.message.val()
+      @save()
+      $.post('/api/commit', {id: @model.id, message: message})
+        .done (data) ->
+          alert("successfully committed \"#{data}\"")
+
+    open_modal: ->
+      @ui.modal.trigger('openModal')
+
+    close_modal: ->
+      @ui.modal.trigger('closeModal')

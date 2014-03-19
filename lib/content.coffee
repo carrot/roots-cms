@@ -2,6 +2,7 @@ fs = require('fs')
 path = require('path')
 js_yaml = require('js-yaml')
 config = require('../lib/config')
+Git = require('../lib/git')
 
 module.exports = class Content
   constructor: (file_path) ->
@@ -31,11 +32,31 @@ module.exports = class Content
       .concat(@get('content'))
     fs.writeFileSync(@full_path, @contents)
 
+  commit: (message) ->
+    Git.commit(@_changed_files(), message)
+
   parse: ->
     front_matter = @contents.match(@matcher)
     if not front_matter then return false
     @set('data', js_yaml.safeLoad(front_matter[1]))
     @set('content', @contents.replace(@matcher, ''))
     @set('id', @file_path)
+
+  # returns array of changed files associated with this content
+  _changed_files: ->
+    files = []
+    files = files.concat(@_parse_image_paths())
+    files.push(path.join(config.content_dir, @file_path))
+    return files
+
+  # parses content for all local image paths and returns array of file paths
+  _parse_image_paths: ->
+    files = []
+    matched = @contents.match /(!\[.*\]\()(.*)(\))/g
+    for match in matched
+      single_match = match.match /(!\[.*\]\()(\/.*)(\))/
+      if single_match
+        files.push(path.join('assets', single_match[2]))
+    return files
 
   to_json: -> return @data
