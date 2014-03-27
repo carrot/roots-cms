@@ -5,6 +5,10 @@ A tool for easier dynamic content management in [roots](http://roots.cx/) projec
 
 > **Note:** This project is in early development, and versioning is a little different. [Read this](http://markup.im/#q4_cRZ1Q) for more details.
 
+Development is tracked through a public [Trello board](https://trello.com/b/IubkH8lp/roots-cms). There you can see what's being worked on and discuss future features.
+
+Any bugs should be logged in the [Github Issue tracker](https://github.com/carrot/intel-wearables-v2/issues?direction=desc&sort=updated&state=open).
+
 ### Installation
 
 `npm install roots-cms -g`
