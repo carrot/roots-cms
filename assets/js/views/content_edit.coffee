@@ -38,6 +38,7 @@ define ['marionette', 'jquery', 'templates', 'underscore', 'marked', 'pen', 'htm
           drop = new Dropzone(upload, { url: '/api/upload_image' })
           drop.on 'success', (file, res) ->
             $('.upload-area').replaceWith("<img src=\"#{res.url}\"/>")
+          $(upload).trigger 'click'
 
 
     get_data: ->
