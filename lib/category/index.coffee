@@ -1,6 +1,6 @@
 W = require('when')
-sort = require('./category/sort')
-load = require('./category/load')
+sort = require('./sort')
+load = require('./load')
 
 module.exports =
   class Category

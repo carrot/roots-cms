@@ -1,8 +1,8 @@
 fs = require('fs')
 path = require('path')
 js_yaml = require('js-yaml')
-config = require('../lib/config')
-Git = require('../lib/git')
+config = require('../config')
+Git = require('../git')
 
 module.exports = class Content
   constructor: (file_path) ->
