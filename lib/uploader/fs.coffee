@@ -1,10 +1,9 @@
-path = require('path')
-fs = require('fs')
-config = require('../config')
-W = require('when')
-nodefn = require('when/node/function')
-aws_client = require('../aws_client')
-mkdirp = require('mkdirp')
+path    = require 'path'
+fs      = require 'fs'
+config  = require '../config'
+W       = require 'when'
+nodefn  = require 'when/node/function'
+mkdirp  = require 'mkdirp'
 
 class FSUploader
   constructor: ->

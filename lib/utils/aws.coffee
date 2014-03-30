@@ -1,5 +1,5 @@
 knox = require('knox')
-config = require('./config')
+config = require('../config')
 
 if config.aws
   module.exports = knox.createClient
