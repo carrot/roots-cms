@@ -10,7 +10,7 @@
     "autoprefixer-stylus": "0.0.x",
     "axis-css": "0.2.x",
     "rupture": "0.0.x",
-    "roots": "^3.0.0-rc.5",
+    "roots": "3.0.x",
     "client-templates": "0.0.4"
   }
 }

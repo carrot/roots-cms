@@ -1,6 +1,8 @@
 Roots-CMS
 =========
 
+[![Build Status](https://travis-ci.org/carrot/roots-cms.svg?branch=tests-and-structure)](https://travis-ci.org/carrot/roots-cms)
+
 A tool for easier dynamic content management in [roots](http://roots.cx/) projects.
 
 > **Note:** This project is in early development, and versioning is a little different. [Read this](http://markup.im/#q4_cRZ1Q) for more details.
