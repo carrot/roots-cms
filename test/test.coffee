@@ -1,6 +1,7 @@
 path      = require 'path'
 expect    = require('chai').expect
 Browser   = require 'zombie'
+browser   = new Browser
 RootsCMS  = require '../lib'
 
 
@@ -13,14 +14,16 @@ describe 'RootsCMS', ->
 
     it 'raises an error if a non existent project path is given', ->
       project = path.join('not', 'a', 'real', 'path', 'asdfqwerzxcvpoiuqwerasdf')
-      expect(->new RootsCMS(project)).to.throw /no project found at/
+      expect(-> new RootsCMS(project)).to.throw /no project found at/
 
   describe '#start()', ->
 
-    it 'starts a server on default port 2222', ->
+    it 'starts a server on default port 2222', (done) ->
       project = path.join(__dirname, 'fixtures', 'test_project')
       cms     = new RootsCMS(project)
 
       cms.start()
-        .then(Browser.visit, 'http://localhost:2222/')
-        .then((e, browser) -> assert.ok(browser.success))
+        .then(-> browser.visit('http://localhost:2222/'))
+        .then ->
+          expect(browser.success).to.be.true
+          done()
