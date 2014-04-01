@@ -13,10 +13,14 @@ class RootsCMS
 
   start: ->
     def = W.defer()
-    compile_client()
+    compile_client().with(@)
       .then(start_server)
       .then(-> def.resolve())
     return def.promise
+
+  stop: ->
+    @server.close()
+    W.resolve()
 
   ### private ###
 
@@ -28,6 +32,6 @@ class RootsCMS
     return def.promise
 
   start_server = ->
-    server.listen(process.env.PORT || 2222)
+    @server = server.listen(process.env.PORT || 2222)
 
 module.exports = RootsCMS

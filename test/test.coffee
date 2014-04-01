@@ -6,6 +6,9 @@ RootsCMS  = require '../lib'
 
 
 describe 'RootsCMS', ->
+  before ->
+    @port = 2222
+    @url  = "http://localhost:#{@port}/"
 
   describe '#constructor()', ->
 
@@ -16,14 +19,26 @@ describe 'RootsCMS', ->
       project = path.join('not', 'a', 'real', 'path', 'asdfqwerzxcvpoiuqwerasdf')
       expect(-> new RootsCMS(project)).to.throw /no project found at/
 
-  describe '#start()', ->
+  describe 'start/stop the server', ->
 
-    it 'starts a server on default port 2222', (done) ->
+    before (done) ->
       project = path.join(__dirname, 'fixtures', 'test_project')
-      cms     = new RootsCMS(project)
+      @cms     = new RootsCMS(project)
+      @cms.start().then(-> done()).catch((e) -> done(e))
 
-      cms.start()
-        .then(-> browser.visit('http://localhost:2222/'))
-        .then ->
+    describe '#start()', (done) ->
+
+      it 'starts a server on default port 2222', (done) ->
+        browser.visit(@url).then ->
           expect(browser.success).to.be.true
           done()
+
+    describe '#stop()', ->
+
+      it 'stops the server', (done) ->
+        @cms.stop()
+          .then(-> browser.visit(@url))
+          .then(->
+            expect(browser.success).to.be.false
+            done()
+          ).catch (e) -> done(e)
