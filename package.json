@@ -40,6 +40,6 @@
   "scripts": {
     "test": "mocha",
     "postinstall": "(cd lib/client && npm install)",
-    "coveralls": "make build; istanbul cover _mocha --report lcovonly -- -R spec; make unbuild;"
+    "coveralls": "make build; make coveralls; make unbuild;"
   }
 }
