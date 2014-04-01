@@ -28,6 +28,6 @@ class RootsCMS
     return def.promise
 
   start_server = ->
-    server.listen(process.env.PORT || 7777)
+    server.listen(process.env.PORT || 2222)
 
 module.exports = RootsCMS

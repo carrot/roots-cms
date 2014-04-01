@@ -1,3 +1,9 @@
 #!/usr/bin/env node
-require('coffee-script')
-require('../lib')
+
+require('coffee-script/register');
+
+var path      = require ('path');
+var RootsCMS  = require ('../lib');
+
+var cms = new RootsCMS(process.cwd());
+cms.start();
