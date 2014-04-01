@@ -6,7 +6,7 @@ Git = require('../utils/git')
 
 module.exports = class Content
   constructor: (file_path) ->
-    if path.extname(file_path) != '.md'
+    if path.extname(file_path) == ''
       file_path = file_path + '.md'
 
     @file_path = file_path
