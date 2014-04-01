@@ -21,32 +21,69 @@ This starts an Express server and opens a browser to a GUI app for managing your
 
 `mocha` will run the test suite.
 
-### Configuring a roots project
+### Configuration
 
-You can configure a roots project to add additional behavior to roots-cms such as custom css templates, s3 image uploading, basic auth, and custom view templates.
+Roots CMS reads special configuration from a JSON file (`cms.json`). This JSON file enables configuration as well as enhanced CMS functionality like custom css templates, s3 image uploading, basic auth, and custom view templates.
 
-Take a look at `cms.json.example` to get a good overview of what's available. Then add your own `cms.json` to the roots project to get started! Here are options you can set:
+Take a look at [`cms.json.example`](/cms.json.example) to get a good overview of what's available. Then add your own `cms.json` to the roots project to get started. Here are options you can set:
 
-`content_dir`  
-If you want to only display one directory of dynamic content, specify the path to the content directory relative to the roots project.
+**content_dir:** If you want to only display one directory of dynamic content, specify the path to the content directory relative to the roots project.
 
-`basic_auth`  
-Takes an object with keys `username` and `password`. Adds HTTP Basic auth if defined.
+```json
+{"content_dir": "blog_posts"}
+```
 
-`uploader`  
-Choose which file uploader to use for uploading images to the project. Use `"fs"` to upload directly into the `assets/img` directory into your roots project. Use `"s3"` for uploading images to Amazon S3 (you'll need to set `aws` in your config as well)
+**basic_auth:** Takes an object with keys `username` and `password`. Adds HTTP Basic auth if defined.
 
-`img_upload_dir`  
-The directory prefix to use for all uploaded images, defaults to `uploads`.
+```json
+{
+  "basic_auth": {
+    "username": "username",
+    "password": "password"
+  }
+}
+```
 
-`aws`  
-An object with `key`, `secret`, and `bucket` key value pairs. Used to configure the Amazon S3 client.
+**uploader:** Choose which file uploader to use for uploading images to the project. Use `"fs"` to upload directly into the `assets/img` directory into your roots project. Use `"s3"` for uploading images to Amazon S3 (you'll need to set `aws` in your config as well)
 
-`templates`  
-You can pass an object with key-value pairs to a jade template in your roots project that Roots-CMS will attempt to compile and use those templates for its Marionette views. Use this to customize the markup for the Roots-CMS front-end. Right now the only template you can override is `content_edit`.
+```json
+{ "uploader": "fs" }
+```
 
-`css`  
-Pass it a relative path to a custom stylesheet you'd like Roots-CMS to load.
+**aws:** An object with `key`, `secret`, and `bucket` key value pairs. Used to configure the Amazon S3 client.
+
+```json
+{
+  "uploader": "s3",
+  "aws": {
+    "key": "XXX",
+    "secret": "XXX",
+    "bucket": "bucket-name"
+  }
+}
+```
+
+**img_upload_dir:** The directory prefix to use for all uploaded images, defaults to `uploads`.
+
+```json
+{ "img_upload_dir": "uploads" }
+```
+
+**templates:** You can pass an object with key-value pairs to a jade template in your roots project that Roots-CMS will attempt to compile and use those templates for its Marionette views. Use this to customize the markup for the Roots-CMS front-end. Right now the only template you can override is `content_edit`.
+
+```json
+{
+  "templates": {
+    "content_edit": "assets/cms/templates/_content_show.jade"
+  }
+}
+```
+
+**css:** Pass it a relative path to a custom stylesheet you'd like Roots-CMS to load.
+
+```json
+{ "css": "assets/css/_blogging.styl" }
+```
 
 ### Setting up Roots CMS in a production environment
 
