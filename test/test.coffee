@@ -3,12 +3,14 @@ expect    = require('chai').expect
 Browser   = require 'zombie'
 browser   = new Browser
 RootsCMS  = require '../lib'
+Config    = require '../lib/config'
 
 
 describe 'RootsCMS', ->
   before ->
     @port = 2222
     @url  = "http://localhost:#{@port}/"
+    @project = path.join(__dirname, 'fixtures', 'test_project')
 
   describe '#constructor()', ->
 
@@ -19,11 +21,14 @@ describe 'RootsCMS', ->
       project = path.join('not', 'a', 'real', 'path', 'asdfqwerzxcvpoiuqwerasdf')
       expect(-> new RootsCMS(project)).to.throw /no project found at/
 
+    it 'sets up the configuration', ->
+      cms = new RootsCMS(@project)
+      expect(cms.config).to.be.an.instanceof(Config)
+
   describe 'start/stop the server', ->
 
     before (done) ->
-      project = path.join(__dirname, 'fixtures', 'test_project')
-      @cms     = new RootsCMS(project)
+      @cms = new RootsCMS(@project, {env: 'test'})
       @cms.start().then(-> done()).catch((e) -> done(e))
 
     describe '#start()', (done) ->
@@ -37,8 +42,8 @@ describe 'RootsCMS', ->
 
       it 'stops the server', (done) ->
         @cms.stop()
-          .then(-> browser.visit(@url))
-          .then(->
+          .then -> browser.visit(@url)
+          .then ->
             expect(browser.success).to.be.false
             done()
-          ).catch (e) -> done(e)
+          .catch (e) -> done(e)

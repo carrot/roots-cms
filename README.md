@@ -21,7 +21,7 @@ Any bugs should be logged in the [Github Issue tracker](https://github.com/carro
 
 This starts an Express server and opens a browser to a GUI app for managing your dynamic content files. When you're finished editing, `<ctrl>+c` to stop the web server. All your changes should be written to your dynamic content files, ready for you to commit and deploy!
 
-`mocha` will run the test suite.
+`npm test` runs the test suite.
 
 ### Configuration
 
