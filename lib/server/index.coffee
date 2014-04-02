@@ -1,34 +1,41 @@
 express = require 'express'
 path    = require('path')
-config  = require('../config')
 api     = require('./api')
 
-module.exports = server = express()
+class Server
 
+  constructor: (@cms) ->
+    @config = @cms.config
+    @_server = express()
+    configure_server.call(@)
 
-#### auth & setup #####
+  start: ->
+    @_http_server = @_server.listen(process.env.PORT || 2222)
 
-if config.basic_auth
-  server.use(express.basicAuth(config.basic_auth.username, config.basic_auth.password))
+  stop: ->
+    @_http_server.close()
 
-server.use(express.logger('dev'))
+  ### private ###
 
-server.use(express.bodyParser())
+  configure_server = ->
+    if @config.env == 'development'
+      @_server.use(express.logger('dev'))
 
+    @_server.use(express.bodyParser())
 
-#####    api      #####
+    if @config.basic_auth
+      @_server.use(express.basicAuth(@config.basic_auth.username, @config.basic_auth.password))
 
-server.use(api)
+    # roots-cms client assets
+    @_server.use(express.static(path.join(__dirname, '..', 'client', 'public')))
 
+    # roots project assets
+    @_server.use(express.static(path.join(@cms.root, 'assets')))
 
-#####   static    #####
+    api(@cms, @_server)
 
-# roots-cms client assets
-server.use(express.static(path.join(__dirname, '..', 'client', 'public')))
+    # roots-cms marionette SPA
+    @_server.get "*", (req, res) ->
+      res.sendfile(path.join(__dirname, '..', 'client', 'public', 'index.html'))
 
-# roots project assets
-server.use(express.static(path.join(config.project_dir, 'assets')))
-
-# roots-cms marionette SPA
-server.get "*", (req, res) ->
-  res.sendfile(path.join(__dirname, '..', 'client', 'public', 'index.html'))
+module.exports = Server

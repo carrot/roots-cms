@@ -5,11 +5,11 @@ Content = require('../content')
 W = require('when')
 
 module.exports = 
-  all_dynamic_content: (dir) ->
+  all_dynamic_content: (@cms, dir) ->
     deferred = W.defer()
 
     @_detect_content_files(dir).then (files) =>
-      deferred.resolve(new Content(f.path) for f in files)
+      deferred.resolve(new Content(@cms, f.path) for f in files)
 
     return deferred.promise
 

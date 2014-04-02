@@ -1,16 +1,17 @@
 fs = require('fs')
 path = require('path')
 js_yaml = require('js-yaml')
-config = require('../config')
 Git = require('../utils/git')
 
 module.exports = class Content
-  constructor: (file_path) ->
+  constructor: (@cms, file_path) ->
+    @config = @cms.config
+
     if path.extname(file_path) == ''
       file_path = file_path + '.md'
 
     @file_path = file_path
-    @full_path = path.join(config.project_dir, config.content_dir, @file_path)
+    @full_path = path.join(@config.project_dir, @config.content_dir, @file_path)
 
     if not fs.existsSync(@full_path)
       template_path = path.join(@full_path, '..', '_template.md')
@@ -46,7 +47,7 @@ module.exports = class Content
   _changed_files: ->
     files = []
     files = files.concat(@_parse_image_paths())
-    files.push(path.join(config.content_dir, @file_path))
+    files.push(path.join(@config.content_dir, @file_path))
     return files
 
   # parses content for all local image paths and returns array of file paths

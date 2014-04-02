@@ -1,34 +1,41 @@
-path = require('path')
-_ = require('lodash')
+path  = require 'path'
+fs    = require 'fs'
 
-try
-  config = require('../config.json')
-catch err
-  config = null
+class Config
+  constructor: (@cms, opts) ->
+    if not @cms then throw Error 'no cms object given to configure'
+    set_defaults.call(@)
+    load_config.call(@)
+    set_config.call(@, opts)
 
-defaults =
-  project_dir: config?.project_dir || process.cwd()
-  content_dir: ''
-  basic_auth: false
-  templates:
-    content_edit: path.join(__dirname, 'server', 'assets', 'templates', 'content_edit.jade')
-    category: path.join(__dirname, 'server', 'assets', 'templates', 'category.jade')
-    post: path.join(__dirname, 'server', 'assets', 'templates', 'post.jade')
-    posts: path.join(__dirname, 'server',  'assets', 'templates', 'posts.jade')
-  aws: null
-  uploader: 'fs'
-  img_upload_dir: 'uploads'
+  set_defaults = ->
+    defaults =
+      project_dir: @cms.root || process.cwd()
+      content_dir: ''
+      basic_auth: false
+      templates:
+        content_edit: path.join(__dirname, 'server', 'assets', 'templates', 'content_edit.jade')
+        category: path.join(__dirname, 'server', 'assets', 'templates', 'category.jade')
+        post: path.join(__dirname, 'server', 'assets', 'templates', 'post.jade')
+        posts: path.join(__dirname, 'server',  'assets', 'templates', 'posts.jade')
+      aws: null
+      uploader: 'fs'
+      img_upload_dir: 'uploads'
+      env: 'development'
 
-# attempt to load custom config from project
-try
-  custom = require(path.join(defaults.project_dir, 'cms'))
+    set_config.call(@, defaults)
 
-  # convert custom template paths to their absolute path
-  for k, v of custom.templates
-    custom.templates[k] = path.join(defaults.project_dir, v)
+  load_config = ->
+    root_path   = @cms.root
+    config_path = path.join(root_path, 'cms.json')
 
-  options = _.merge(defaults, custom)
-catch err
-  options = defaults
+    if fs.existsSync(config_path)
+      config = require(config_path)
+      for k, v of config.templates
+        config.templates[k] = path.join(root_path, v)
+      set_config.call(@, config)
 
-module.exports = options
+  set_config = (config) ->
+    @[k] = v for k, v of config
+
+module.exports = Config
