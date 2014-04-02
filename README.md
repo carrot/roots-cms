@@ -13,6 +13,8 @@ Any bugs should be logged in the [Github Issue tracker](https://github.com/carro
 
 ### Installation
 
+requires node version > 0.10
+
 `npm install roots-cms -g`
 
 ### Usage
