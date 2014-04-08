@@ -35,7 +35,5 @@ api.post '/api/commit', (req, res) ->
   res.send(message)
 
 api.post '/api/upload_image', (req, res) ->
-  fs.readFile req.files.file.path, (err, buf) ->
-    (Uploader.init())
-      .upload(buf)
-      .then (url) -> res.json(url: url)
+  Uploader.init().upload(req.files.file.path)
+    .then (url) -> res.json(url: url)
