@@ -1,18 +1,28 @@
-config = require('../config')
-W = require('when')
-aws_client = require('../aws_client')
+fs          = require 'fs'
+path        = require 'path'
+config      = require '../config'
+W           = require 'when'
+nodefn      = require 'when/node/function'
+aws_client  = require '../aws_client'
 
 class S3Uploader
 
   constructor: ->
     @client = aws_client
 
-  upload: (buf) ->
-    deferred = W.defer()
+  upload: (@file_path) ->
+    @_read_file()
+      .then(@_write_file.bind(@))
 
-    file_name = "img_#{(new Date).getTime()}.png"
+  _read_file: ->
+    nodefn.call(fs.readFile, @file_path)
 
-    req = @client.put "#{config.img_upload_dir}/#{file_name}",
+  _write_file: (buf) ->
+    def = W.defer()
+
+    @file_name = "img_#{(new Date).getTime()}#{path.extname(@file_path)}"
+
+    req = @client.put "#{config.img_upload_dir}/#{@file_name}",
       'Content-Length': buf.length
       'Content-Type': 'image/jpg'
       'x-amz-acl': 'public-read'
@@ -20,10 +30,10 @@ class S3Uploader
     req.on 'response', (res) ->
       if 200 == res.statusCode
         console.log('S3Uploader saved image to %s', req.url)
-        deferred.resolve(req.url)
+        def.resolve(req.url)
 
     req.end(buf)
 
-    return deferred.promise
+    return def.promise
 
 module.exports = S3Uploader
