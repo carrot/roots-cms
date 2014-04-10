@@ -10,7 +10,7 @@ describe 'RootsCMS', ->
   before ->
     @port = 2222
     @url  = "http://localhost:#{@port}/"
-    @project = path.join(__dirname, 'fixtures', 'test_project')
+    @project = path.join(__dirname, 'fixtures', 'project_without_config')
 
   describe '#constructor()', ->
 

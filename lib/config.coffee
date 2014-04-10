@@ -2,6 +2,19 @@ path  = require 'path'
 fs    = require 'fs'
 
 class Config
+  @defaults:
+    content_dir: ''
+    basic_auth: false
+    templates:
+      content_edit: path.join(__dirname, 'server', 'assets', 'templates', 'content_edit.jade')
+      category: path.join(__dirname, 'server', 'assets', 'templates', 'category.jade')
+      post: path.join(__dirname, 'server', 'assets', 'templates', 'post.jade')
+      posts: path.join(__dirname, 'server',  'assets', 'templates', 'posts.jade')
+    aws: null
+    uploader: 'fs'
+    img_upload_dir: 'uploads'
+    env: 'development'
+
   constructor: (@cms, opts) ->
     if not @cms then throw Error 'no cms object given to configure'
     set_defaults.call(@)
@@ -9,21 +22,8 @@ class Config
     set_config.call(@, opts)
 
   set_defaults = ->
-    defaults =
-      project_dir: @cms.root || process.cwd()
-      content_dir: ''
-      basic_auth: false
-      templates:
-        content_edit: path.join(__dirname, 'server', 'assets', 'templates', 'content_edit.jade')
-        category: path.join(__dirname, 'server', 'assets', 'templates', 'category.jade')
-        post: path.join(__dirname, 'server', 'assets', 'templates', 'post.jade')
-        posts: path.join(__dirname, 'server',  'assets', 'templates', 'posts.jade')
-      aws: null
-      uploader: 'fs'
-      img_upload_dir: 'uploads'
-      env: 'development'
-
-    set_config.call(@, defaults)
+    @project_dir = @cms.root || process.cwd()
+    set_config.call(@, Config.defaults)
 
   load_config = ->
     root_path   = @cms.root
