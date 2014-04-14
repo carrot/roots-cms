@@ -4,7 +4,6 @@ api     = require('../api')
 W       = require 'when'
 
 Roots   = require 'roots'
-client    = new Roots(path.join(__dirname, '..', 'client'))
 
 class Server
 
@@ -25,11 +24,8 @@ class Server
   ### private ###
 
   compile_client = ->
-    def = W.defer()
+    client = new Roots(path.join(__dirname, '..', 'client'))
     client.compile()
-      .on 'error',  -> def.reject()
-      .on 'done',   -> def.resolve()
-    return def.promise
 
   configure_server = ->
     if @config.env == 'development'
