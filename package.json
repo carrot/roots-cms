@@ -1,6 +1,6 @@
 {
   "name": "roots-cms",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "homepage": "https://github.com/carrot/roots-cms/",
   "description": "A content management tool for managing roots dynamic content.",
   "main": "index.js",
