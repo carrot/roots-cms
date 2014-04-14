@@ -38,7 +38,6 @@ class RootsCMS
     @config = new Config(@, opts)
 
   start_server = ->
-    console.log(@)
     @server = new Server(@)
     @server.start()
 

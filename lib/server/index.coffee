@@ -1,6 +1,6 @@
 express = require 'express'
 path    = require('path')
-api     = require('./api')
+api     = require('../api')
 W       = require 'when'
 
 Roots   = require 'roots'
