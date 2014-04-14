@@ -15,9 +15,7 @@ describe 'Server', ->
   describe '#start()', ->
 
     it 'starts the server'
-    it 'throws an error if the server is already running'
 
   describe '#stop()', ->
 
     it 'stops the server'
-    it 'throws an error if the server is already stopped'

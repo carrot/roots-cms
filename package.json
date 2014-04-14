@@ -38,7 +38,7 @@
     "istanbul": "~0.2.7"
   },
   "scripts": {
-    "test": "mocha \"test/*.coffee\" \"test/features/*.coffee\"",
+    "test": "mocha",
     "postinstall": "(cd lib/client && npm install)",
     "coveralls": "make build; make coveralls; make unbuild;"
   }
