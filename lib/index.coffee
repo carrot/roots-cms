@@ -1,9 +1,7 @@
 path    = require 'path'
 fs      = require 'fs'
 W       = require 'when'
-Roots   = require 'roots'
 
-client    = new Roots(path.join(__dirname, 'client'))
 Server    = require './server'
 Config    = require './config'
 Category  = require './category'
@@ -16,12 +14,7 @@ class RootsCMS
     configure_cms.call(@, opts)
 
   start: ->
-    def = W.defer()
-    compile_client().with(@)
-      .then(start_server)
-      .then -> def.resolve()
-      .catch (e) -> throw e
-    return def.promise
+    start_server.call(@).catch((e) -> throw e)
 
   stop: ->
     @server.stop()
@@ -44,16 +37,9 @@ class RootsCMS
   configure_cms = (opts) ->
     @config = new Config(@, opts)
 
-  compile_client = ->
-    def = W.defer()
-    client.compile()
-      .on 'error',  -> def.reject()
-      .on 'done',   -> def.resolve()
-    return def.promise
-
   start_server = ->
+    console.log(@)
     @server = new Server(@)
     @server.start()
-    W.resolve()
 
 module.exports = RootsCMS

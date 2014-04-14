@@ -8,8 +8,6 @@ Config    = require '../lib/config'
 
 describe 'RootsCMS', ->
   before ->
-    @port = 2222
-    @url  = "http://localhost:#{@port}/"
     @project = path.join(__dirname, 'fixtures', 'project_without_config')
 
   describe '#constructor()', ->
@@ -24,26 +22,3 @@ describe 'RootsCMS', ->
     it 'sets up the configuration', ->
       cms = new RootsCMS(@project)
       expect(cms.config).to.be.an.instanceof(Config)
-
-  describe 'start/stop the server', ->
-
-    before (done) ->
-      @cms = new RootsCMS(@project, {env: 'test'})
-      @cms.start().then(-> done()).catch((e) -> done(e))
-
-    describe '#start()', (done) ->
-
-      it 'starts a server on default port 2222', (done) ->
-        browser.visit(@url).then ->
-          expect(browser.success).to.be.true
-          done()
-
-    describe '#stop()', ->
-
-      it 'stops the server', (done) ->
-        @cms.stop()
-          .then -> browser.visit(@url)
-          .then ->
-            expect(browser.success).to.be.false
-            done()
-          .catch (e) -> done(e)

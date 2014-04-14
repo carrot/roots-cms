@@ -1,21 +1,35 @@
 express = require 'express'
 path    = require('path')
 api     = require('./api')
+W       = require 'when'
+
+Roots   = require 'roots'
+client    = new Roots(path.join(__dirname, '..', 'client'))
 
 class Server
 
   constructor: (@cms) ->
+    if not @cms then throw Error 'no cms object given to configure'
     @config = @cms.config
     @_server = express()
     configure_server.call(@)
 
   start: ->
-    @_http_server = @_server.listen(process.env.PORT || 2222)
+    compile_client().with(@).then ->
+      @_http_server = @_server.listen(process.env.PORT || 2222)
 
   stop: ->
     @_http_server.close()
+    W.resolve()
 
   ### private ###
+
+  compile_client = ->
+    def = W.defer()
+    client.compile()
+      .on 'error',  -> def.reject()
+      .on 'done',   -> def.resolve()
+    return def.promise
 
   configure_server = ->
     if @config.env == 'development'
