@@ -2,8 +2,15 @@
 
 require('coffee-script/register');
 
-var path      = require ('path');
-var RootsCMS  = require ('../lib');
+var path      = require('path');
+var fs        = require('fs');
+var RootsCMS  = require('../lib');
 
-var cms = new RootsCMS(process.cwd());
-cms.start();
+var config_path = path.join(__dirname, '..', 'config.json')
+
+fs.exists(config_path, function(exists) {
+  var config = exists ? require(config_path) : {};
+  var project_path = config.project_dir || process.cwd();
+  var cms = new RootsCMS(project_path);
+  return cms.start();
+});
