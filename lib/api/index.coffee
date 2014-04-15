@@ -30,7 +30,6 @@ module.exports = (@cms, server) ->
     res.send(message)
 
   server.post '/api/upload_image', (req, res) ->
-    fs.readFile req.files.file.path, (err, buf) ->
-      (Uploader.init())
-        .upload(buf)
-        .then (url) -> res.json(url: url)
+    uploader = new Uploader(@cms)
+    uploader.upload(req.files.file.path)
+      .then (url) -> res.json(url: url)

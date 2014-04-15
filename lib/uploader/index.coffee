@@ -1,8 +1,17 @@
-config = require('../config')
+class Uploader
+  @uploaders:
+    s3: require('./s3')
+    fs: require('./base')
 
-uploaders =
-  s3: require('./s3')
-  fs: require('./fs')
+  constructor: (@cms) ->
+    @config = @cms.config
 
-module.exports =
-  init: -> new uploaders[config.uploader]
+  upload: (file_path) ->
+    uploader = new (Uploader.uploaders[@config.uploader])(@cms)
+    uploader.setup(file_path).with(uploader)
+      .then(uploader.read_file)
+      .then(uploader.upload_file)
+      .then(uploader.return_url)
+      .catch((e) -> throw e)
+
+module.exports = Uploader
