@@ -22,8 +22,7 @@ describe 'Server', ->
     before (done) ->
       @cms    = new RootsCMS(@project, {env: 'test'})
       @server = new Server(@cms)
-      @server.start()
-      done()
+      @server.start().then(-> done()).catch((e) -> done(e))
 
     describe '#start()', ->
 
