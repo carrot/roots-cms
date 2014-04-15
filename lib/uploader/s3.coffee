@@ -1,26 +1,13 @@
-config  = require '../config'
-W       = require 'when'
-aws     = require '../utils/aws'
+W             = require 'when'
+AWS           = require '../utils/aws'
+BaseUploader  = require './base'
 
-class S3Uploader
+class S3Uploader extends BaseUploader
+  upload_file: (buf) ->
+    aws = new AWS(@cms)
+    aws.upload("#{@config.img_upload_dir}/#{@file_name}", buf)
 
-  upload: (buf) ->
-    deferred = W.defer()
-
-    file_name = "img_#{(new Date).getTime()}.png"
-
-    req = aws.put "#{config.img_upload_dir}/#{file_name}",
-      'Content-Length': buf.length
-      'Content-Type': 'image/jpg'
-      'x-amz-acl': 'public-read'
-
-    req.on 'response', (res) ->
-      if 200 == res.statusCode
-        console.log('S3Uploader saved image to %s', req.url)
-        deferred.resolve(req.url)
-
-    req.end(buf)
-
-    return deferred.promise
+  return_url: (url) ->
+    W.resolve(url)
 
 module.exports = S3Uploader
