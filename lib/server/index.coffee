@@ -15,7 +15,7 @@ class Server
 
   start: ->
     compile_client().with(@).then ->
-      @_http_server = @_server.listen(process.env.PORT || 2222)
+      @_http_server = @_server.listen(@config.port)
 
   stop: ->
     @_http_server.close()

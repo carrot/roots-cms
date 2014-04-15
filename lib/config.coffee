@@ -14,6 +14,7 @@ class Config
     uploader: 'fs'
     img_upload_dir: 'uploads'
     env: 'development'
+    port: parseInt(process.env.PORT) || 2222
 
   constructor: (@cms, opts) ->
     if not @cms then throw Error 'no cms object given to configure'
