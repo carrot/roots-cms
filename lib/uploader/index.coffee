@@ -8,10 +8,6 @@ class Uploader
 
   upload: (file_path) ->
     uploader = new (Uploader.uploaders[@config.uploader])(@cms)
-    uploader.setup(file_path).with(uploader)
-      .then(uploader.read_file)
-      .then(uploader.upload_file)
-      .then(uploader.return_url)
-      .catch((e) -> throw e)
+    uploader.upload(file_path).catch((e) -> throw e)
 
 module.exports = Uploader

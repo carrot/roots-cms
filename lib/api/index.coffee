@@ -30,6 +30,5 @@ module.exports = (@cms, server) ->
     res.send(message)
 
   server.post '/api/upload_image', (req, res) ->
-    uploader = new Uploader(@cms)
-    uploader.upload(req.files.file.path)
+    (new Uploader(@cms)).upload(req.files.file.path)
       .then (url) -> res.json(url: url)

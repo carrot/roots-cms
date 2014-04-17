@@ -8,7 +8,13 @@ class BaseUploader
   constructor: (@cms) ->
     @config = @cms.config
 
-  setup: (@file_path) ->
+  upload: (@file_path) ->
+    @setup().with(@)
+      .then(@read_file)
+      .then(@upload_file)
+      .then(@return_url)
+
+  setup: ->
     @file_name = "img_#{(new Date).getTime()}#{path.extname(@file_path)}"
     W.resolve()
 
