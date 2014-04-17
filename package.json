@@ -19,26 +19,28 @@
   },
   "dependencies": {
     "express": "3.4.x",
-    "jade": "0.35.x",
-    "stylus": "~0.41.x",
-    "coffee-script": "~1.6.x",
-    "axis-css": "0.1.x",
-    "autoprefixer-stylus": "0.0.x",
     "readdirp": "0.3.x",
-    "when": "2.7.x",
-    "connect-coffee-script": "0.1.x",
+    "when": "~3.0.1",
     "js-yaml": "~3.0.1",
-    "grate": "0.0.2",
     "lodash": "~2.4.1",
     "knox": "~0.8.8",
     "mkdirp": "~0.3.5",
-    "shelljs": "~0.2.6"
+    "shelljs": "~0.2.6",
+    "roots": "3.0.0-rc.6",
+    "coffee-script": "~1.7.1",
+    "mime": "^1.2.11"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
-    "should": "~2.1.1"
+    "should": "~2.1.1",
+    "chai": "~1.9.1",
+    "zombie": "~2.0.0-alpha31",
+    "coveralls": "~2.10.0",
+    "istanbul": "~0.2.7"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "postinstall": "(cd lib/client && npm install)",
+    "coveralls": "make build; make coveralls; make unbuild;"
   }
 }

@@ -1,3 +1,13 @@
 #!/usr/bin/env node
-require('coffee-script')
-require('../app')
+
+require('coffee-script/register');
+
+var path      = require('path');
+var fs        = require('fs');
+var RootsCMS  = require('../lib');
+
+var config_path   = path.join(__dirname, '..', 'config.json');
+var config        = fs.existsSync(config_path) ? require(config_path) : {};
+var project_path  = config.project_dir || process.cwd();
+
+new RootsCMS(project_path).start();

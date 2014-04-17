@@ -1,10 +1,10 @@
 fs = require('fs')
 path = require('path')
-config = require('../config')
 Content = require('../content')
 
 module.exports =
-  by_category: (content) ->
+  by_category: (@cms, content) ->
+    @config = @cms.config
     grouped = @_group_by_category(content)
     categories = @_to_json(grouped)
 
@@ -27,8 +27,8 @@ module.exports =
       category = {}
 
       template_path = path.join(key, '_template.md')
-      if fs.existsSync(path.join(config.project_dir, config.content_dir, template_path))
-        template = new Content(template_path)
+      if fs.existsSync(path.join(@config.project_dir, @config.content_dir, template_path))
+        template = new Content(@cms, template_path)
         template.set('id', null)
         category.template = template.to_json()
 

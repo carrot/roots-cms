@@ -1,6 +1,8 @@
 Roots-CMS
 =========
 
+[![Build Status](https://travis-ci.org/carrot/roots-cms.svg?branch=tests-and-structure)](https://travis-ci.org/carrot/roots-cms)
+
 A tool for easier dynamic content management in [roots](http://roots.cx/) projects.
 
 > **Note:** This project is in early development, and versioning is a little different. [Read this](http://markup.im/#q4_cRZ1Q) for more details.
@@ -11,6 +13,8 @@ Any bugs should be logged in the [Github Issue tracker](https://github.com/carro
 
 ### Installation
 
+requires node version > 0.10
+
 `npm install roots-cms -g`
 
 ### Usage
@@ -19,7 +23,7 @@ Any bugs should be logged in the [Github Issue tracker](https://github.com/carro
 
 This starts an Express server and opens a browser to a GUI app for managing your dynamic content files. When you're finished editing, `<ctrl>+c` to stop the web server. All your changes should be written to your dynamic content files, ready for you to commit and deploy!
 
-`mocha` will run the test suite.
+`npm test` runs the test suite.
 
 ### Configuration
 

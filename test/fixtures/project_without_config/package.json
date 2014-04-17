@@ -1,0 +1,12 @@
+{
+  "name": "test_project",
+  "description": "test roots project",
+  "dependencies": {
+    "jade": "1.x.x",
+    "marked": "0.3.x",
+    "stylus": "0.42.x",
+    "coffee-script": "1.x.x",
+    "autoprefixer-stylus": "0.0.x",
+    "axis-css": "0.2.x"
+  }
+}
