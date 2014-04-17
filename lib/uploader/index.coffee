@@ -4,6 +4,7 @@ class Uploader
     fs: require('./base')
 
   constructor: (@cms) ->
+    if not @cms then throw Error 'no cms object given to configure'
     @config = @cms.config
 
   upload: (file_path) ->
