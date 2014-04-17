@@ -6,11 +6,8 @@ var path      = require('path');
 var fs        = require('fs');
 var RootsCMS  = require('../lib');
 
-var config_path = path.join(__dirname, '..', 'config.json')
+var config_path   = path.join(__dirname, '..', 'config.json');
+var config        = fs.existsSync(config_path) ? require(config_path) : {};
+var project_path  = config.project_dir || process.cwd();
 
-fs.exists(config_path, function(exists) {
-  var config = exists ? require(config_path) : {};
-  var project_path = config.project_dir || process.cwd();
-  var cms = new RootsCMS(project_path);
-  return cms.start();
-});
+new RootsCMS(project_path).start();
