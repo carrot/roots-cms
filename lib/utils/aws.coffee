@@ -1,5 +1,6 @@
 knox  = require 'knox'
 W     = require 'when'
+mime  = require 'mime'
 
 class AWS
   constructor: (@cms) ->
@@ -14,7 +15,7 @@ class AWS
 
     req = @client.put file_name,
       'Content-Length': buf.length
-      'Content-Type': 'image/jpg'
+      'Content-Type': mime.lookup(file_name)
       'x-amz-acl': 'public-read'
 
     req.on 'response', (res) ->

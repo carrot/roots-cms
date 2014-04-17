@@ -27,7 +27,8 @@
     "mkdirp": "~0.3.5",
     "shelljs": "~0.2.6",
     "roots": "3.0.0-rc.6",
-    "coffee-script": "~1.7.1"
+    "coffee-script": "~1.7.1",
+    "mime": "^1.2.11"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
