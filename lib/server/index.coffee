@@ -2,8 +2,10 @@ express = require 'express'
 path    = require('path')
 api     = require('../api')
 W       = require 'when'
-
 Roots   = require 'roots'
+
+client_path = path.join(__dirname, '..', '..', '..', 'roots-cms-client')
+new_client  = require(path.join(client_path, 'lib'))
 
 class Server
 
@@ -24,8 +26,7 @@ class Server
   ### private ###
 
   compile_client = ->
-    client = new Roots(path.join(__dirname, '..', 'client'))
-    client.compile()
+    new_client(env: 'production').compile()
 
   configure_server = ->
     if @config.env == 'development'
@@ -37,7 +38,7 @@ class Server
       @_server.use(express.basicAuth(@config.basic_auth.username, @config.basic_auth.password))
 
     # roots-cms client assets
-    @_server.use(express.static(path.join(__dirname, '..', 'client', 'public')))
+    @_server.use(express.static(path.join(client_path, 'public')))
 
     # roots project assets
     @_server.use(express.static(path.join(@cms.root, 'assets')))
@@ -46,6 +47,6 @@ class Server
 
     # roots-cms marionette SPA
     @_server.get "*", (req, res) ->
-      res.sendfile(path.join(__dirname, '..', 'client', 'public', 'index.html'))
+      res.sendfile(path.join(client_path, 'public', 'index.html'))
 
 module.exports = Server
