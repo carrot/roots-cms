@@ -54,10 +54,11 @@ module.exports = class Content
   _parse_image_paths: ->
     files = []
     matched = @contents.match /(!\[.*\]\()(.*)(\))/g
-    for match in matched
-      single_match = match.match /(!\[.*\]\()(\/.*)(\))/
-      if single_match
-        files.push(path.join('assets', single_match[2]))
+    if matched
+      for match in matched
+        single_match = match.match /(!\[.*\]\()(\/.*)(\))/
+        if single_match
+          files.push(path.join('assets', single_match[2]))
     return files
 
   to_json: -> return @data
