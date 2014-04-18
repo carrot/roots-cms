@@ -40,7 +40,6 @@
   },
   "scripts": {
     "test": "mocha",
-    "postinstall": "(cd lib/client && npm install)",
     "coveralls": "make build; make coveralls; make unbuild;"
   }
 }
