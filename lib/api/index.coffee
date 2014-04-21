@@ -8,11 +8,11 @@ Uploader = require('../uploader')
 module.exports = (@cms, server) ->
   config = @cms.config
 
-  server.get '/api/categories', (req, res) ->
+  server.get '/api/categories.json', (req, res) ->
     @cms.all().then (category_json) ->
       res.json(category_json)
 
-  server.get '/api/content/:path', (req, res) ->
+  server.get '/api/content/:path.json', (req, res) ->
     res.json(@cms.find_content(req.params.path).to_json())
 
   server.put '/api/content/:path', (req, res) ->

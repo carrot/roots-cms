@@ -28,7 +28,8 @@
     "shelljs": "~0.2.6",
     "roots": "3.0.0-rc.6",
     "coffee-script": "~1.7.1",
-    "mime": "^1.2.11"
+    "mime": "^1.2.11",
+    "roots-cms-client": "0.0.2"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
@@ -40,7 +41,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "postinstall": "(cd lib/client && npm install)",
-    "coveralls": "make build; make coveralls; make unbuild;"
+    "coveralls": "make build; make coveralls; make unbuild;",
+    "postinstall": "(cd node_modules/roots-cms-client && npm install)"
   }
 }
