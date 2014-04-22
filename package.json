@@ -44,6 +44,7 @@
   },
   "scripts": {
     "test": "mocha",
+    "preinstall": "npm install --ignore-scripts",
     "coveralls": "make build; make coveralls; make unbuild;",
     "postinstall": "(cd node_modules/roots-cms-client && npm install)"
   }
