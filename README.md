@@ -1,7 +1,10 @@
 Roots-CMS
 =========
 
+[![NPM version](https://badge.fury.io/js/roots-cms.svg)](http://badge.fury.io/js/roots-cms)
 [![Build Status](https://travis-ci.org/carrot/roots-cms.svg?branch=tests-and-structure)](https://travis-ci.org/carrot/roots-cms)
+[![Coverage Status](https://coveralls.io/repos/carrot/roots-cms/badge.png?branch=master)](https://coveralls.io/r/carrot/roots-cms?branch=master)
+[![Dependency Status](https://david-dm.org/carrot/roots-cms.svg)](https://david-dm.org/carrot/roots-cms)
 
 A tool for easier dynamic content management in [roots](http://roots.cx/) projects.
 
