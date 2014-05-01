@@ -29,7 +29,8 @@
     "roots": "3.0.0-rc.6",
     "coffee-script": "~1.7.1",
     "mime": "^1.2.11",
-    "roots-cms-client": "0.0.2"
+    "roots-cms-client": "0.0.2",
+    "string": "~1.8.1"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
