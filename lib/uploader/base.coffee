@@ -22,11 +22,11 @@ class BaseUploader
     nodefn.call(fs.readFile, @file_path)
 
   upload_file: (buf) ->
-    upload_dir = path.join(@config.project_dir, 'assets', 'img', @config.img_upload_dir)
+    upload_dir = path.join(@config.project_dir, @config.uploader.dir)
     nodefn.call(mkdirp, upload_dir).with(@)
       .then(-> nodefn.call(fs.writeFile, path.join(upload_dir, @file_name), buf))
 
   return_url: ->
-    W.resolve(path.join("/img", @config.img_upload_dir, @file_name))
+    W.resolve(path.join(@config.uploader.dir.replace('assets', ''), @file_name))
 
 module.exports = BaseUploader

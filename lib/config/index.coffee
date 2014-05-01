@@ -13,7 +13,7 @@ class Config
     aws: null
     uploader:
       adapter: 'fs'
-    img_upload_dir: 'uploads'
+      dir: 'assets/img/uploads'
     env: 'development'
     port: parseInt(process.env.PORT) || 2222
 
