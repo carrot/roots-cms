@@ -34,8 +34,9 @@ class Server
 
     @_server.use(express.bodyParser())
 
-    if @config.basic_auth
-      @_server.use(express.basicAuth(@config.basic_auth.username, @config.basic_auth.password))
+    if @config.auth
+      auth = @config.auth.split(':')
+      @_server.use(express.basicAuth(auth[0], auth[1]))
 
     client_path = path.join(__dirname, '..', '..', 'node_modules', 'roots-cms-client', 'public')
 

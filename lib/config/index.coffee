@@ -4,7 +4,7 @@ fs    = require 'fs'
 class Config
   @defaults:
     content_dir: ''
-    basic_auth: false
+    auth: false
     templates:
       content_edit: path.join(__dirname, 'server', 'assets', 'templates', 'content_edit.jade')
       category: path.join(__dirname, 'server', 'assets', 'templates', 'category.jade')
