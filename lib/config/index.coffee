@@ -11,7 +11,8 @@ class Config
       post: path.join(__dirname, 'server', 'assets', 'templates', 'post.jade')
       posts: path.join(__dirname, 'server',  'assets', 'templates', 'posts.jade')
     aws: null
-    uploader: 'fs'
+    uploader:
+      adapter: 'fs'
     img_upload_dir: 'uploads'
     env: 'development'
     port: parseInt(process.env.PORT) || 2222
