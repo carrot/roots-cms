@@ -20,7 +20,7 @@ describe 'Uploader', ->
       @cms        = new RootsCMS(@project)
       @uploader   = new Uploader(@cms)
       @file_path  = path.join(__dirname, 'fixtures', 'img', 'doge.jpg')
-      @upload_dir = path.join('/img', @cms.config.img_upload_dir)
+      @upload_dir = @cms.config.uploader.dir.replace('assets', '')
 
     it 'returns the url with the correct path', (done) ->
       @uploader.upload(@file_path).done (url) =>

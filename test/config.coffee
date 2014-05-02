@@ -21,7 +21,7 @@ describe 'Config', ->
       expect(@cms.config).to.include.keys(Object.keys(Config.defaults))
 
     it 'has the default value for basic_auth', ->
-      expect(@cms.config.basic_auth).to.eq false
+      expect(@cms.config.auth).to.eq false
 
   describe 'with cms.json in the project', ->
     before ->
@@ -30,7 +30,7 @@ describe 'Config', ->
       @config   = new Config(@cms)
 
     it 'has the cms.json value for basic_auth', ->
-      expect(@cms.config.basic_auth).to.eq 'username:password'
+      expect(@cms.config.auth).to.eq 'username:password'
 
     describe 'and overrides passes into the constructor', ->
       before ->
