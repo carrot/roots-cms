@@ -8,7 +8,7 @@ module.exports = class Content
     @config = @cms.config
 
     if path.extname(file_path) == ''
-      file_path = file_path + '.md'
+      file_path = file_path + '.jade'
 
     @file_path = file_path
     @full_path = path.join(@config.project_dir, @config.content_dir, @file_path)
@@ -40,7 +40,7 @@ module.exports = class Content
     front_matter = @contents.match(@matcher)
     if not front_matter then return false
     @set('data', js_yaml.safeLoad(front_matter[1]))
-    @set('content', @contents.replace(@matcher, ''))
+    @set('content', @_extract_markdown(@contents))
     @set('id', @file_path)
 
   # returns array of changed files associated with this content
@@ -60,5 +60,16 @@ module.exports = class Content
         if single_match
           files.push(path.join('assets', single_match[2]))
     return files
+
+  _extract_markdown: (contents) ->
+    # removes front matter, jade syntax, and indentation
+    below_front_matter = contents.replace(@matcher, '')
+    jade_syntax = below_front_matter.match(/.*\s( *):markdown\n/)
+    markdown_indent_length = jade_syntax[1].length + 2
+    split = below_front_matter.split(':markdown')
+    split.shift()
+    content = split.join('').replace(///\n#{Array(markdown_indent_length + 1).join(' ')}///g, '\n')
+    if content[0] == '\n' then content = content.substr(1)
+    return content
 
   to_json: -> return @data
