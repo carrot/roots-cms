@@ -30,7 +30,7 @@ module.exports = class Content
 
   save: ->
     @contents = "---\n#{js_yaml.safeDump(@get('data'))}---\n"
-      .concat(@get('content'))
+      .concat("extends ../_single\nblock content\n  :markdown\n    #{@get('content').replace(/\n/g, '\n    ')}")
     fs.writeFileSync(@full_path, @contents)
 
   commit: (message) ->
