@@ -4,24 +4,13 @@ js_yaml = require('js-yaml')
 Git = require('../utils/git')
 
 module.exports = class Content
+  matcher: /^---\s*\n([\s\S]*?)\n?---\s*\n?/
+  data: {}
+
   constructor: (@cms, file_path) ->
-    @config = @cms.config
-
-    if path.extname(file_path) == ''
-      file_path = file_path + '.jade'
-
-    @file_path = file_path
-    @full_path = path.join(@config.project_dir, @config.content_dir, @file_path)
-
-    if not fs.existsSync(@full_path)
-      template_path = path.join(@full_path, '..', '_template.md')
-      template = fs.readFileSync(template_path, 'utf8')
-      fs.writeFileSync(path.join(@full_path), template)
-
-    @matcher = /^---\s*\n([\s\S]*?)\n?---\s*\n?/
-    @data = {}
-    @category = path.dirname(@file_path)
-    @contents = fs.readFileSync(@full_path, 'utf8')
+    load_file_metadata.call(@, file_path)
+    if not fs.existsSync(@full_path) then create_from_template(@full_path)
+    @raw = fs.readFileSync(@full_path, 'utf8')
     @parse()
 
   get: (str) -> @data[str]
@@ -29,18 +18,18 @@ module.exports = class Content
   set: (attr, val) -> @data[attr] = val
 
   save: ->
-    @contents = "---\n#{js_yaml.safeDump(@get('data'))}---\n"
+    @raw = "---\n#{js_yaml.safeDump(@get('data'))}---\n"
       .concat("extends ../_single\nblock content\n  :markdown\n    #{@get('content').replace(/\n/g, '\n    ')}")
-    fs.writeFileSync(@full_path, @contents)
+    fs.writeFileSync(@full_path, @raw)
 
   commit: (message) ->
     Git.commit(@_changed_files(), message)
 
   parse: ->
-    front_matter = @contents.match(@matcher)
+    front_matter = @raw.match(@matcher)
     if not front_matter then return false
     @set('data', js_yaml.safeLoad(front_matter[1]))
-    @set('content', @_extract_markdown(@contents))
+    @set('content', @_extract_markdown(@raw))
     @set('id', @file_path)
 
   # returns array of changed files associated with this content
@@ -53,7 +42,7 @@ module.exports = class Content
   # parses content for all local image paths and returns array of file paths
   _parse_image_paths: ->
     files = []
-    matched = @contents.match /(!\[.*\]\()(.*)(\))/g
+    matched = @raw.match /(!\[.*\]\()(.*)(\))/g
     if matched
       for match in matched
         single_match = match.match /(!\[.*\]\()(\/.*)(\))/
@@ -65,6 +54,7 @@ module.exports = class Content
     # removes front matter, jade syntax, and indentation
     below_front_matter = contents.replace(@matcher, '')
     jade_syntax = below_front_matter.match(/.*\s( *):markdown\n/)
+    if not jade_syntax then return ''
     markdown_indent_length = jade_syntax[1].length + 2
     split = below_front_matter.split(':markdown')
     split.shift()
@@ -73,3 +63,20 @@ module.exports = class Content
     return content
 
   to_json: -> return @data
+
+  load_file_metadata = (p) ->
+    if path.extname(p) == ''
+      jade = p + '.jade'
+      md   = p + '.md'
+      if fs.existsSync(@cms.abs_path(jade))
+        p = jade
+      else if fs.existsSync(@cms.abs_path(md))
+        p = md
+    @file_path = p
+    @full_path = @cms.abs_path(@file_path)
+    @category  = path.dirname(@file_path)
+
+  create_from_template = (p) ->
+    template_path = path.join(p, '..', '_template.md')
+    template = fs.readFileSync(template_path, 'utf8')
+    fs.writeFileSync(path.join(p), template)

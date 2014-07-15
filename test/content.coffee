@@ -14,6 +14,11 @@ describe 'Content', ->
       content.parse()
       expect(content.get('content')).to.equal("Imagine a series of gridded laser lights projected ahead of you.\n\n17 years ago, that's how I would have introduced Carrot's new API.\n")
 
+    it 'should return empty string for content if there\'s no jade content below the front matter', ->
+      content = new Content(@cms, 'blog_posts/no_content')
+      content.parse()
+      expect(content.get('content')).to.equal('')
+
   describe '#save', ->
     before ->
       @path = path.join(__dirname, 'fixtures', 'project_with_config', 'blog_posts', 'api.jade')
@@ -25,7 +30,7 @@ describe 'Content', ->
       content.save()
 
       reloaded_content = new Content(@cms, 'blog_posts/api')
-      expect(content.contents.indexOf('extends ../_single\nblock content\n  :markdown\n    Some other content.\n    \n    Testing.'))
+      expect(content.raw.indexOf('extends ../_single\nblock content\n  :markdown\n    Some other content.\n    \n    Testing.'))
         .to.be.above(-1)
 
     after ->
