@@ -48,29 +48,29 @@ Take a look at [`cms.json.example`](/cms.json.example) to get a good overview of
 }
 ```
 
-**uploader:** Choose which file uploader to use for uploading images to the project. Use `"fs"` to upload directly into the `assets/img` directory into your roots project. Use `"s3"` for uploading images to Amazon S3 (you'll need to set `aws` in your config as well)
+**uploader:** Choose which file uploader adapter to use for uploading images to the project. Defaults to uploading to the roots project's file system. Specify the `adapter`, each adapter will have additional options that can be passed in.
 
-```json
-{ "uploader": "fs" }
-```
-
-**aws:** An object with `key`, `secret`, and `bucket` key value pairs. Used to configure the Amazon S3 client.
+FS uploader config:
 
 ```json
 {
-  "uploader": "s3",
-  "aws": {
+  "uploader": {
+    "adapter": "fs",
+    "dir": "assets/img/uploads"
+  }
+}
+```
+S3 uploader config:
+
+```json
+{
+  "uploader": {
+    "adapter": "s3",
     "key": "XXX",
     "secret": "XXX",
     "bucket": "bucket-name"
   }
 }
-```
-
-**img_upload_dir:** The directory prefix to use for all uploaded images, defaults to `uploads`.
-
-```json
-{ "img_upload_dir": "uploads" }
 ```
 
 **templates:** You can pass an object with key-value pairs to a jade template in your roots project that Roots-CMS will attempt to compile and use those templates for its Marionette views. Use this to customize the markup for the Roots-CMS front-end. Right now the only template you can override is `content_edit`.

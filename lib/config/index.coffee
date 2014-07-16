@@ -4,15 +4,16 @@ fs    = require 'fs'
 class Config
   @defaults:
     content_dir: ''
-    basic_auth: false
+    auth: false
     templates:
       content_edit: path.join(__dirname, 'server', 'assets', 'templates', 'content_edit.jade')
       category: path.join(__dirname, 'server', 'assets', 'templates', 'category.jade')
       post: path.join(__dirname, 'server', 'assets', 'templates', 'post.jade')
       posts: path.join(__dirname, 'server',  'assets', 'templates', 'posts.jade')
     aws: null
-    uploader: 'fs'
-    img_upload_dir: 'uploads'
+    uploader:
+      adapter: 'fs'
+      dir: 'assets/img/uploads'
     env: 'development'
     port: parseInt(process.env.PORT) || 2222
 

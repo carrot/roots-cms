@@ -6,9 +6,9 @@ class AWS
   constructor: (@cms) ->
     @config = @cms.config
     @client = knox.createClient
-      key: @config.aws.key
-      secret: @config.aws.secret
-      bucket: @config.aws.bucket
+      key: @config.uploader.key
+      secret: @config.uploader.secret
+      bucket: @config.uploader.bucket
 
   upload: (file_name, buf) ->
     def = W.defer()
