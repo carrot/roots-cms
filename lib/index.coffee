@@ -32,6 +32,9 @@ class RootsCMS
     content.set('content', markdown)
     content.save()
 
+  abs_path: (p) ->
+    path.join(@config.project_dir, @config.content_dir, p)
+
   ### private ###
 
   configure_cms = (opts) ->

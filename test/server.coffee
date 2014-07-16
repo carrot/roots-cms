@@ -9,7 +9,7 @@ Server    = require '../lib/server'
 describe 'Server', ->
   before ->
     @port    = 2222
-    @url     = "http://localhost:#{@port}/"
+    @url     = "http://localhost:#{@port}/api/categories.json"
     @project = path.join(__dirname, 'fixtures', 'project_without_config')
 
   describe '#constructor()', ->
