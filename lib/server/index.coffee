@@ -15,7 +15,7 @@ class Server
     configure_server.call(@)
 
   start: ->
-    compile_client().with(@).then ->
+    compile_client.call(@).with(@).then ->
       @_http_server = @_server.listen(@config.port)
 
   stop: ->
@@ -25,7 +25,7 @@ class Server
   ### private ###
 
   compile_client = ->
-    client.compile()
+    if @config.env == 'test' then W.resolve() else client.compile()
 
   configure_server = ->
     if @config.env == 'development'
