@@ -1,7 +1,8 @@
-fs = require('fs')
-path = require('path')
-js_yaml = require('js-yaml')
-Git = require('../utils/git')
+fs      = require 'fs'
+path    = require 'path'
+js_yaml = require 'js-yaml'
+S       = require 'string'
+Git     = require '../utils/git'
 
 module.exports = class Content
   matcher: /^---\s*\n([\s\S]*?)\n?---\s*\n?/
@@ -50,6 +51,10 @@ module.exports = class Content
           files.push(path.join('assets', single_match[2]))
     return files
 
+  to_json: ->
+    @set('content', S(@get('content')).escapeHTML().s)
+    return @data
+
   _extract_markdown: (contents) ->
     # removes front matter, jade syntax, and indentation
     below_front_matter = contents.replace(@matcher, '')
@@ -61,8 +66,6 @@ module.exports = class Content
     content = split.join('').replace(///\n#{Array(markdown_indent_length + 1).join(' ')}///g, '\n')
     if content[0] == '\n' then content = content.substr(1)
     return content
-
-  to_json: -> return @data
 
   load_file_metadata = (p) ->
     if path.extname(p) == ''

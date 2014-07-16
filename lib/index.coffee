@@ -1,6 +1,7 @@
 path    = require 'path'
 fs      = require 'fs'
 W       = require 'when'
+S       = require 'string'
 
 Server    = require './server'
 Config    = require './config'
@@ -29,7 +30,7 @@ class RootsCMS
   update_content: (id, data, markdown) ->
     content = new Content(@, id)
     content.set('data', data)
-    content.set('content', markdown)
+    content.set('content', S(markdown).unescapeHTML().s)
     content.save()
 
   abs_path: (p) ->
