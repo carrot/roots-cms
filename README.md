@@ -1,6 +1,8 @@
 Roots-CMS
 =========
 
+> **This project is no longer under development**. We have created an alternative CMS workflow for roots using [Contentful](https://www.contentful.com/) and [Netlify](https://www.netlify.com/). If you're interested, read [our blog post about it](http://carrot.is/coding/static_cms) and check out our [roots-contentful extension](https://github.com/carrot/roots-contentful).
+
 [![Build Status](https://travis-ci.org/carrot/roots-cms.svg?branch=tests-and-structure)](https://travis-ci.org/carrot/roots-cms)
 
 A tool for easier dynamic content management in [roots](http://roots.cx/) projects.
